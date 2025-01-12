@@ -13,7 +13,7 @@
     'author': '2CS SIT2 TEAM 02 - ESI 2025',
     'website': 'https://almiyah-djazair.dz',
     'license': 'LGPL-3',
-    'depends': ['base', 'mail', 'web'],
+    'depends': ['base', 'mail', 'web', 'hr', 'project'],
     'data': [
         'security/claim_security.xml',
         'security/ir.model.access.csv',

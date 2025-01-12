@@ -1,10 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_claim_admin,claim.admin,model_your_module_name_claim,base.group_system,1,1,1,1
-access_claim_manager,claim.manager,model_your_module_name_claim,your_module_name.group_claim_manager,1,1,1,0
-access_claim_user,claim.user,model_your_module_name_claim,your_module_name.group_claim_user,1,0,1,0
-access_claimant_manager,claimant.manager,model_your_module_name_claimant,your_module_name.group_claim_manager,1,1,1,0
-access_claimant_user,claimant.user,model_your_module_name_claimant,your_module_name.group_claim_user,1,0,1,0
-access_agency_manager,agency.manager,model_your_module_name_agency,your_module_name.group_claim_manager,1,1,1,0
-access_agency_user,agency.user,model_your_module_name_agency,your_module_name.group_claim_user,1,0,1,0
-access_employee_manager,employee.manager,model_your_module_name_employee,your_module_name.group_claim_manager,1,1,1,0
-access_employee_user,employee.user,model_your_module_name_employee,your_module_name.group_claim_user,1,0,1,0
+access_claim_admin,claim.access.admin,model_claim_claim,base.group_system,1,1,1,1
+access_claim_manager,claim.access.manager,model_claim_claim,claim_management.group_claim_manager,1,1,1,0
+access_claim_user,claim.access.user,model_claim_claim,claim_management.group_claim_user,1,0,1,0
+access_claimant_admin,claimant.access.admin,model_claim_claimant,base.group_system,1,1,1,1
+access_agency_admin,agency.access.admin,model_claim_agency,base.group_system,1,1,1,1
+access_communication_admin,communication.access.admin,model_claim_communication,base.group_system,1,1,1,1
