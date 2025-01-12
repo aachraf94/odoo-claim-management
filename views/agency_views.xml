@@ -1,59 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <!-- Form View -->
-        <record id="view_agency_form" model="ir.ui.view">
-            <field name="name">claim.agency.form</field>
-            <field name="model">claim.agency</field>
-            <field name="arch" type="xml">
-                <form>
-                    <sheet>
-                        <div class="oe_title">
-                            <h1>
-                                <field name="name" placeholder="Nom de l'agence"/>
-                            </h1>
-                        </div>
-                        <group>
-                            <group>
-                                <field name="code"/>
-                                <field name="phone"/>
-                                <field name="manager_id"/>
-                            </group>
-                            <group>
-                                <field name="address"/>
-                                <field name="city"/>
-                            </group>
-                        </group>
-                        <notebook>
-                            <page string="Employés">
-                                <field name="employee_ids">
-                                    <tree>
-                                        <field name="name"/>
-                                        <field name="first_name"/>
-                                        <field name="role"/>
-                                        <field name="phone"/>
-                                    </tree>
-                                </field>
-                            </page>
-                        </notebook>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+    <!-- Agency Tree View -->
+    <record id="view_agency_tree" model="ir.ui.view">
+        <field name="name">claim.agency.tree</field>
+        <field name="model">claim.agency</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="city"/>
+                <field name="phone"/>
+                <field name="manager_id"/>
+            </tree>
+        </field>
+    </record>
 
-        <!-- Tree View -->
-        <record id="view_agency_tree" model="ir.ui.view">
-            <field name="name">claim.agency.tree</field>
-            <field name="model">claim.agency</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="code"/>
-                    <field name="name"/>
-                    <field name="city"/>
-                    <field name="manager_id"/>
-                    <field name="phone"/>
-                </tree>
-            </field>
-        </record>
-    </data>
+    <!-- Agency Form View -->
+    <record id="view_agency_form" model="ir.ui.view">
+        <field name="name">claim.agency.form</field>
+        <field name="model">claim.agency</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Agency Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="city"/>
+                            <field name="phone"/>
+                        </group>
+                        <group>
+                            <field name="manager_id"/>
+                            <field name="address"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Employees">
+                            <field name="employee_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="role"/>
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Agency Action Window -->
+    <record id="action_agency_list" model="ir.actions.act_window">
+        <field name="name">Agencies</field>
+        <field name="res_model">claim.agency</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first agency
+            </p>
+        </field>
+    </record>
 </odoo>

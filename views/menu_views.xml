@@ -1,93 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <!-- Actions -->
-        <record id="action_claim" model="ir.actions.act_window">
-            <field name="name">Réclamations</field>
-            <field name="res_model">claim.claim</field>
-            <field name="view_mode">tree,form,calendar</field>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
-                    Créer votre première réclamation
-                </p>
-            </field>
-        </record>
+    <!-- Main Menu -->
+    <menuitem id="menu_claim_root" 
+        name="Claims Management" 
+        sequence="10" 
+        web_icon="claim_management,static/description/icon.png"/>
 
-        <record id="action_claimant" model="ir.actions.act_window">
-            <field name="name">Réclamants</field>
-            <field name="res_model">claim.claimant</field>
-            <field name="view_mode">tree,form</field>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
-                    Créer votre premier réclamant
-                </p>
-            </field>
-        </record>
+    <!-- Claims Menu -->
+    <menuitem id="menu_claim_main" 
+        name="Claims" 
+        parent="menu_claim_root" 
+        sequence="10"/>
 
-        <record id="action_agency" model="ir.actions.act_window">
-            <field name="name">Agences</field>
-            <field name="res_model">claim.agency</field>
-            <field name="view_mode">tree,form</field>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
-                    Créer votre première agence
-                </p>
-            </field>
-        </record>
+    <menuitem id="menu_claim_list" 
+        name="All Claims" 
+        parent="menu_claim_main" 
+        action="action_claim_list" 
+        sequence="10"/>
 
-        <record id="action_employee" model="ir.actions.act_window">
-            <field name="name">Employés</field>
-            <field name="res_model">claim.employee</field>
-            <field name="view_mode">tree,form</field>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
-                    Créer votre premier employé
-                </p>
-            </field>
-        </record>
+    <!-- Claimants Menu -->
+    <menuitem id="menu_claimant_main" 
+        name="Claimants" 
+        parent="menu_claim_root" 
+        sequence="20"/>
 
-        <!-- Root Menu -->
-        <menuitem id="menu_claim_root" 
-                  name="Réclamations" 
-                  web_icon="claim,static/description/icon.png"
-                  sequence="10"/>
+    <menuitem id="menu_claimant_list" 
+        name="All Claimants" 
+        parent="menu_claimant_main" 
+        action="action_claimant_list" 
+        sequence="10"/>
 
-        <!-- Main Menus -->
-        <menuitem id="menu_claim_main"
-                  name="Gestion"
-                  parent="menu_claim_root"
-                  sequence="10"/>
+    <!-- Operations Menu -->
+    <menuitem id="menu_operations" 
+        name="Operations" 
+        parent="menu_claim_root" 
+        sequence="30"/>
 
-        <!-- Claims Management Submenus -->
-        <menuitem id="menu_claim" 
-                  name="Réclamations" 
-                  parent="menu_claim_main" 
-                  action="action_claim"
-                  sequence="10"/>
+    <menuitem id="menu_projects" 
+        name="Projects" 
+        parent="menu_operations" 
+        action="action_claim_projects" 
+        sequence="10"/>
 
-        <menuitem id="menu_claimant" 
-                  name="Réclamants" 
-                  parent="menu_claim_main" 
-                  action="action_claimant"
-                  sequence="20"/>
+    <menuitem id="menu_communications" 
+        name="Communications" 
+        parent="menu_operations" 
+        action="action_communications" 
+        sequence="20"/>
 
-        <!-- Configuration Menu -->
-        <menuitem id="menu_claim_config" 
-                  name="Configuration" 
-                  parent="menu_claim_root" 
-                  sequence="100"/>
+    <!-- Configuration Menu -->
+    <menuitem id="menu_claim_config" 
+        name="Configuration" 
+        parent="menu_claim_root" 
+        sequence="100"/>
 
-        <!-- Configuration Submenus -->
-        <menuitem id="menu_agency" 
-                  name="Agences" 
-                  parent="menu_claim_config" 
-                  action="action_agency"
-                  sequence="10"/>
+    <menuitem id="menu_agency" 
+        name="Agencies" 
+        parent="menu_claim_config" 
+        action="action_agency_list" 
+        sequence="10"/>
 
-        <menuitem id="menu_employee" 
-                  name="Employés" 
-                  parent="menu_claim_config" 
-                  action="action_employee"
-                  sequence="20"/>
-    </data>
+    <menuitem id="menu_employee" 
+        name="Employees" 
+        parent="menu_claim_config" 
+        action="action_employee_list" 
+        sequence="20"/>    
 </odoo>

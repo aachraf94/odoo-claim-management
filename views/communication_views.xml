@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Communication Tree View -->
+    <record id="view_communication_tree" model="ir.ui.view">
+        <field name="name">claim.communication.tree</field>
+        <field name="model">claim.communication</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="claim_id"/>
+                <field name="agent_id"/>
+                <field name="communication_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Communication Form View -->
+    <record id="view_communication_form" model="ir.ui.view">
+        <field name="name">claim.communication.form</field>
+        <field name="model">claim.communication</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="claim_id"/>
+                            <field name="date"/>
