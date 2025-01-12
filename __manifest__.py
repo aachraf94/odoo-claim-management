@@ -2,14 +2,17 @@
     'name': 'Claim Management',
     'version': '1.0',
     'category': 'Services',
-    'summary': 'Gestion des réclamations pour AlMiyah Djazair',
+    'summary': 'Claim management for AlMiyah Djazair',
     'description': """
-        Module de gestion des réclamations permettant de :
-        * Recevoir et enregistrer les réclamations
-        * Suivre le traitement des réclamations
-        * Gérer la communication avec les réclamants
-        * Générer des rapports et indicateurs
+        Claim management module for the AlMiyah Djazair company, offering the following features:
+        - Recording claims (citizens, businesses, monitoring unit)
+        - Monitoring and processing claims (commercial or technical)
+        - Managing communication with claimants
+        - Generating reports and indicators
     """,
+    'author': '2CS SIT2 TEAM 02 - ESI 2025',
+    'website': 'https://almiyah-djazair.dz',
+    'license': 'LGPL-3',
     'depends': ['base', 'mail', 'web'],
     'data': [
         'security/claim_security.xml',
@@ -18,12 +21,17 @@
         'views/claimant_views.xml',
         'views/agency_views.xml',
         'views/employee_views.xml',
+        'views/communication_views.xml',
         'views/menu_views.xml',
         'report/claim_reports.xml',
+        'report/claim_report_template.xml',
         'data/claim_sequence.xml',
     ],
-    'demo': [],
+    'demo': [
+        'demo/claim_demo.xml',
+    ],
     'installable': True,
     'application': True,
     'auto_install': False,
+    'maintainer': '2CS SIT2 TEAM 02 - ESI 2025',
 }
