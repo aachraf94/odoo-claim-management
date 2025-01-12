@@ -1,27 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Communication Tree View -->
+    <!-- Tree View -->
     <record id="view_communication_tree" model="ir.ui.view">
         <field name="name">claim.communication.tree</field>
         <field name="model">claim.communication</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree string="Communications" decoration-warning="communication_type=='inbound'" decoration-info="communication_type=='outbound'" decoration-muted="communication_type=='update'">
                 <field name="date"/>
                 <field name="claim_id"/>
                 <field name="agent_id"/>
                 <field name="communication_type"/>
+                <field name="notes"/>
             </tree>
         </field>
     </record>
 
-    <!-- Communication Form View -->
+    <!-- Form View -->
     <record id="view_communication_form" model="ir.ui.view">
         <field name="name">claim.communication.form</field>
         <field name="model">claim.communication</field>
         <field name="arch" type="xml">
-            <form>
+            <form string="Communication">
                 <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="claim_id" placeholder="Claim Reference"/>
+                        </h1>
+                    </div>
                     <group>
                         <group>
-                            <field name="claim_id"/>
                             <field name="date"/>
+                            <field name="agent_id"/>
+                            <field name="communication_type"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Communication Details">
+                            <field name="notes" placeholder="Enter communication details here..." nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_communication_search" model="ir.ui.view">
+        <field name="name">claim.communication.search</field>
+        <field name="model">claim.communication</field>
+        <field name="arch" type="xml">
+            <search string="Search Communications">
+                <field name="claim_id"/>
+                <field name="agent_id"/>
+                <field name="notes"/>
+                <filter string="Today" name="today" domain="[('date','&gt;=', (context_today()).strftime('%Y-%m-%d')),('date','&lt;=', (context_today()).strftime('%Y-%m-%d'))]"/>
+                <filter string="This Week" name="this_week" domain="[('date','&gt;=', (context_today() + relativedelta(weeks=-1,days=1,weekday=0)).strftime('%Y-%m-%d')),('date','&lt;=', (context_today() + relativedelta(weeks=0,days=-1,weekday=6)).strftime('%Y-%m-%d'))]"/>
+                <separator/>
+                <filter string="Inbound Calls" name="inbound" domain="[('communication_type','=','inbound')]"/>
+                <filter string="Outbound Calls" name="outbound" domain="[('communication_type','=','outbound')]"/>
+                <filter string="Status Updates" name="updates" domain="[('communication_type','=','update')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Agent" name="agent" context="{'group_by':'agent_id'}"/>
+                    <filter string="Claim" name="claim" context="{'group_by':'claim_id'}"/>
+                    <filter string="Type" name="type" context="{'group_by':'communication_type'}"/>
+                    <filter string="Date" name="date" context="{'group_by':'date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Calendar View -->
+    <record id="view_communication_calendar" model="ir.ui.view">
+        <field name="name">claim.communication.calendar</field>
+        <field name="model">claim.communication</field>
+        <field name="arch" type="xml">
+            <calendar string="Communications Calendar" date_start="date" color="agent_id">
+                <field name="claim_id"/>
+                <field name="communication_type"/>
+                <field name="agent_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Pivot View -->
+    <record id="view_communication_pivot" model="ir.ui.view">
+        <field name="name">claim.communication.pivot</field>
+        <field name="model">claim.communication</field>
+        <field name="arch" type="xml">
+            <pivot string="Communications Analysis">
+                <field name="date" type="row"/>
+                <field name="communication_type" type="col"/>
+                <field name="agent_id" type="row"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Graph View -->
+    <record id="view_communication_graph" model="ir.ui.view">
+        <field name="name">claim.communication.graph</field>
+        <field name="model">claim.communication</field>
+        <field name="arch" type="xml">
+            <graph string="Communications">
+                <field name="date"/>
+                <field name="communication_type"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_communications" model="ir.actions.act_window">
+        <field name="name">Communications</field>
+        <field name="res_model">claim.communication</field>
+        <field name="view_mode">tree,form,calendar,pivot,graph</field>
+        <field name="search_view_id" ref="view_communication_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first communication record!
+            </p>
+            <p>
+                Keep track of all communications related to claims.
+            </p>
+        </field>
+    </record>
+</odoo>
