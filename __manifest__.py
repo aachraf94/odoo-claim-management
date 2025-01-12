@@ -1,6 +1,6 @@
 {
     'name': 'Claim Management',
-    'version': '1.0',
+    'version': '1.1',
     'category': 'Services',
     'summary': 'Claim management for AlMiyah Djazair',
     'description': """
