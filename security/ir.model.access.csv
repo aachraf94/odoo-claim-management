@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_claim_claim_user,claim.claim.user,model_claim_claim,base.group_user,1,1,1,1
+access_claimant_user,claim.claimant.user,model_claim_claimant,base.group_user,1,1,1,1
+access_agency_user,claim.agency.user,model_claim_agency,base.group_user,1,1,1,1
+access_employee_user,claim.employee.user,model_claim_employee,base.group_user,1,1,1,1
+access_technical_intervention_user,claim.technical.intervention.user,model_claim_technical_intervention,base.group_user,1,1,1,1

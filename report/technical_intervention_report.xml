@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="report_technical_intervention" model="ir.actions.report">
+            <field name="name">PV Technique</field>
+            <field name="model">claim.claim</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">claim.report_technical_intervention_document</field>
+            <field name="report_file">claim.report_technical_intervention</field>
+            <field name="binding_model_id" ref="model_claim_claim"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="report_technical_intervention_document">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2>Procès-verbal d'intervention technique</h2>
+                            <div class="row mt32 mb32">
+                                <div class="col-6">
+                                    <strong>Référence:</strong> <span t-field="doc.name"/><br/>
+                                    <strong>Date:</strong> <span t-field="doc.date"/><br/>
+                                    <strong>Réclamant:</strong> <span t-field="doc.claimant_id.name"/>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Complexité:</strong> <span t-field="doc.complexity"/><br/>
+                                    <strong>Gravité:</strong> <span t-field="doc.gravity"/><br/>
+                                    <strong>Chef d'équipe:</strong> <span t-field="doc.team_leader_id.name"/>
+                                </div>
+                            </div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Actions réalisées</th>
+                                        <th>Lieu</th>
+                                        <th>Durée</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.intervention_ids" t-as="intervention">
+                                        <td><span t-field="intervention.date"/></td>
+                                        <td><span t-field="intervention.description"/></td>
+                                        <td><span t-field="intervention.location"/></td>
+                                        <td><span t-field="intervention.duration"/> heures</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row mt32">
+                                <div class="col-12 text-right">
+                                    <p>Signature du chef d'équipe:</p>
+                                    <div class="mt16 mr32" style="border-top: 1px solid black; width: 200px; float: right;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

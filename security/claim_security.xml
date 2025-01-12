@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="module_claim_category" model="ir.module.category">
+            <field name="name">Gestion des réclamations</field>
+        </record>
+
+        <record id="claim_group_user" model="res.groups">
+            <field name="name">Utilisateur</field>
+            <field name="category_id" ref="module_claim_category"/>
+        </record>
+
+        <record id="claim_group_manager" model="res.groups">
+            <field name="name">Responsable</field>
+            <field name="category_id" ref="module_claim_category"/>
+            <field name="implied_ids" eval="[(4, ref('claim_group_user'))]"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Accusé de réception -->
+        <record id="report_claim_receipt" model="ir.actions.report">
+            <field name="name">Accusé de réception</field>
+            <field name="model">claim.claim</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">claim.report_claim_receipt_document</field>
+            <field name="report_file">claim.report_claim_receipt</field>
+            <field name="binding_model_id" ref="model_claim_claim"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="report_claim_receipt_document">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2>Accusé de réception de réclamation</h2>
+                            <div class="row mt32 mb32">
+                                <div class="col-6">
+                                    <strong>Référence:</strong> <span t-field="doc.name"/><br/>
+                                    <strong>Date:</strong> <span t-field="doc.date"/><br/>
+                                    <strong>Réclamant:</strong> <span t-field="doc.claimant_id.name"/>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Agence:</strong> <span t-field="doc.agency_id.name"/><br/>
+                                    <strong>Type:</strong> <span t-field="doc.type"/><br/>
+                                    <strong>Agent:</strong> <span t-field="doc.customer_service_agent_id.name"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>Objet:</strong> <span t-field="doc.subject"/><br/>
+                                    <strong>Description:</strong> <span t-field="doc.description"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <!-- PV Commercial -->
+        <record id="report_commercial_pv" model="ir.actions.report">
+            <field name="name">PV Commercial</field>
+            <field name="model">claim.claim</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">claim.report_commercial_pv_document</field>
+            <field name="report_file">claim.report_commercial_pv</field>
+            <field name="binding_model_id" ref="model_claim_claim"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="report_commercial_pv_document">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2>Procès-verbal de la commission commerciale</h2>
+                            <div class="row mt32 mb32">
+                                <div class="col-6">
+                                    <strong>Référence:</strong> <span t-field="doc.name"/><br/>
+                                    <strong>Date PV:</strong> <span t-field="doc.commercial_pv_date"/><br/>
+                                    <strong>Réclamant:</strong> <span t-field="doc.claimant_id.name"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>PV:</strong> <span t-field="doc.commercial_pv"/><br/>
+                                    <strong>Décision:</strong> <span t-field="doc.commercial_decision"/>
+                                </div>
+                            </div>
+                            <div class="row mt32">
+                                <div class="col-12">
+                                    <h4>Signatures des membres de la commission</h4>
+                                    <t t-foreach="doc.team_ids" t-as="member">
+                                        <div class="mt16">
+                                            <span t-field="member.name"/> - <span t-field="member.role"/>
+                                            <div class="mt8" style="border-top: 1px solid black; width: 200px;"/>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

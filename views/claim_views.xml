@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record id="view_claim_form" model="ir.ui.view">
+            <field name="name">claim.claim.form</field>
+            <field name="model">claim.claim</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_submit" string="Soumettre" type="object" class="oe_highlight"/>
+                        <button name="action_start_processing" string="Commencer traitement" type="object" class="oe_highlight"/>
+                        <button name="action_resolve" string="Résoudre" type="object" class="oe_highlight"/>
+                        <button name="action_close" string="Clôturer" type="object" class="oe_highlight"/>
+                        <button name="action_archive" string="Archiver" type="object"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date"/>
+                                <field name="subject"/>
+                                <field name="claimant_id"/>
+                                <field name="agency_id"/>
+                                <field name="origin"/>
+                                <field name="source"/>
+                            </group>
+                            <group>
+                                <field name="type"/>
+                                <field name="urgent"/>
+                                <field name="customer_service_agent_id"/>
+                                <field name="team_leader_id"/>
+                                <field name="complexity"/>
+                                <field name="gravity"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="description"/>
+                            </page>
+                            <page string="Équipe d'intervention">
+                                <field name="team_ids"/>
+                            </page>
+                            <page string="Interventions techniques">
+                                <field name="intervention_ids">
+                                    <tree editable="bottom">
+                                        <field name="date"/>
+                                        <field name="description"/>
+                                        <field name="location"/>
+                                        <field name="duration"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="PV Commercial">
+                                <group>
+                                    <field name="commercial_pv"/>
+                                    <field name="commercial_decision"/>
+                                    <field name="commercial_pv_date"/>
+                                </group>
+                            </page>
+                            <page string="Satisfaction Client">
+                                <group>
+                                    <field name="satisfaction_score"/>
+                                    <field name="satisfaction_comment"/>
+                                </group>
+                            </page>
+                            <page string="Pièces jointes">
+                                <field name="attachment_ids" widget="many2many_binary"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_claim_tree" model="ir.ui.view">
+            <field name="name">claim.claim.tree</field>
+            <field name="model">claim.claim</field>
+            <field name="arch" type="xml">
+                <tree decoration-danger="urgent==True" decoration-muted="state=='archived'">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="subject"/>
+                    <field name="claimant_id"/>
+                    <field name="type"/>
+                    <field name="urgent"/>
+                    <field name="customer_service_agent_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="view_claim_search" model="ir.ui.view">
+            <field name="name">claim.claim.search</field>
+            <field name="model">claim.claim</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="subject"/>
+                    <field name="claimant_id"/>
+                    <group expand="1" string="Group By">
+                        <filter name="group_by_type" string="Type" context="{'group_by': 'type'}"/>
+                        <filter name="group_by_agent" string="Agent" context="{'group_by': 'customer_service_agent_id'}"/>
+                        <filter name="group_by_agency" string="Agence" context="{'group_by': 'agency_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Calendar View -->
+        <record id="view_claim_calendar" model="ir.ui.view">
+            <field name="name">claim.claim.calendar</field>
+            <field name="model">claim.claim</field>
+            <field name="arch" type="xml">
+                <calendar string="Réclamations" date_start="date" color="state">
+                    <field name="name"/>
+                    <field name="subject"/>
+                    <field name="claimant_id"/>
+                </calendar>
+            </field>
+        </record>
+    </data>
+</odoo>

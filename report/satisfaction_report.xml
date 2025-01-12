@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="report_satisfaction_analysis" model="ir.actions.report">
+            <field name="name">Rapport de satisfaction</field>
+            <field name="model">claim.claim</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">claim.report_satisfaction_analysis_document</field>
+            <field name="report_file">claim.report_satisfaction_analysis</field>
+            <field name="binding_model_id" ref="model_claim_claim"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="report_satisfaction_analysis_document">
+            <t t-call="web.html_container">
+                <div class="page">
+                    <h2>Analyse de la satisfaction des réclamants</h2>
+                    <div class="row mt32">
+                        <div class="col-12">
+                            <h4>Statistiques globales</h4>
+                            <p>Nombre total de réclamations: <t t-esc="len(docs)"/></p>
+                            <p>Score moyen de satisfaction: 
+                                <t t-esc="sum([float(doc.satisfaction_score or '0') for doc in docs]) / len(docs) if docs else 0"/>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row mt32">
+                        <div class="col-12">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Score</th>
+                                        <th>Nombre</th>
+                                        <th>Pourcentage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="['1', '2', '3', '4', '5']" t-as="score">
+                                        <tr>
+                                            <td><t t-esc="score"/> étoile(s)</td>
+                                            <td><t t-esc="len([d for d in docs if d.satisfaction_score == score])"/></td>
+                                            <td><t t-esc="round(len([d for d in docs if d.satisfaction_score == score]) / len(docs) * 100 if docs else 0, 2)"/>%</td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>
