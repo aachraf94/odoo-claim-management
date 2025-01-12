@@ -1,51 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data noupdate="1">
-        <!-- Define groups first -->
+
+        <!-- Group for managing claims -->
         <record id="group_claim_manager" model="res.groups">
             <field name="name">Claim Manager</field>
-            <field name="category_id" ref="base.module_category_services"/>
-            <!-- Add implied rights -->
-            <field name="implied_ids" eval="[(4, ref('project.group_project_user')), (4, ref('hr.group_hr_user'))]"/>
         </record>
 
+        <!-- Group for viewing claims -->
         <record id="group_claim_user" model="res.groups">
             <field name="name">Claim User</field>
-            <field name="category_id" ref="base.module_category_services"/>
-            <!-- Add implied rights -->
-            <field name="implied_ids" eval="[(4, ref('project.group_project_user')), (4, ref('hr.group_hr_user'))]"/>
         </record>
 
-        <!-- Access Rights for Claim model -->
-        <record id="access_claim_admin" model="ir.model.access">
-            <field name="name">claim.access.admin</field>
-            <field name="model_id" ref="model_claim_claim"/>
-            <field name="group_id" ref="base.group_system"/>
-            <field name="perm_read" eval="1"/>
-            <field name="perm_write" eval="1"/>
-            <field name="perm_create" eval="1"/>
-            <field name="perm_unlink" eval="1"/>
-        </record>
-
-        <!-- Add record rules for inherited models -->
-        <record id="rule_claim_employee" model="ir.rule">
-            <field name="name">Employee Claim Access</field>
-            <field name="model_id" ref="hr.model_hr_employee"/>
-            <field name="domain_force">[('user_id','=',user.id)]</field>
-            <field name="groups" eval="[(4, ref('group_claim_user'))]"/>
-            <field name="perm_read" eval="1"/>
-            <field name="perm_write" eval="1"/>
-            <field name="perm_create" eval="0"/>
-            <field name="perm_unlink" eval="0"/>
-        </record>
-
-        <record id="rule_claim_project" model="ir.rule">
-            <field name="name">Project Claim Access</field>
+        <!-- Access Rights for Claim Manager -->
+        <record id="claim_project_manager_rule" model="ir.rule">
+            <field name="name">Claim Manager Rule</field>
             <field name="model_id" ref="project.model_project_project"/>
-            <field name="domain_force">['|',('user_id','=',user.id),('member_ids','in',user.id)]</field>
-            <field name="groups" eval="[(4, ref('group_claim_user'))]"/>
+            <field name="groups" eval="[(4, ref('claim_management.group_claim_manager'))]"/>
+            <field name="domain_force">[]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
         </record>
 
-        <!-- Add other access rights for your new models (claim, claimant, agency, communication) -->
+        <!-- Access Rights for Claim User -->
+        <record id="claim_project_user_rule" model="ir.rule">
+            <field name="name">Claim User Rule</field>
+            <field name="model_id" ref="project.model_project_project"/>
+            <field name="groups" eval="[(4, ref('claim_management.group_claim_user'))]"/>
+            <field name="domain_force">[]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
     </data>
 </odoo>

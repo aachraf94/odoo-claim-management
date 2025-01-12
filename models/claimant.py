@@ -7,7 +7,7 @@ class Claimant(models.Model):
 
     name = fields.Char('Name', required=True)
     first_name = fields.Char('First Name')
-    company_name = fields.Char('Company Name', attrs={'invisible': [('type', '!=', 'company')]})
+    company_name = fields.Char('Company Name')
     address = fields.Text('Address')
     city = fields.Char('City')
     phone = fields.Char('Phone')
