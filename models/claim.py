@@ -100,3 +100,14 @@ class Claim(models.Model):
 
     def action_archive(self):
         self.write({'state': 'archived'})
+        
+    def action_view_communications(self):
+        self.ensure_one()
+        return {
+            'name': 'Communications',
+            'type': 'ir.actions.act_window',
+            'res_model': 'claim.communication',
+            'view_mode': 'tree,form',
+            'domain': [('claim_id', '=', self.id)],
+            'context': {'default_claim_id': self.id},
+        }
