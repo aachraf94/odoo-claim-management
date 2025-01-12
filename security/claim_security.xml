@@ -2,21 +2,19 @@
 <odoo>
     <data noupdate="1">
 
-        <!-- Group for managing claims -->
+        <!-- Groups -->
         <record id="group_claim_manager" model="res.groups">
             <field name="name">Claim Manager</field>
         </record>
-
-        <!-- Group for viewing claims -->
         <record id="group_claim_user" model="res.groups">
             <field name="name">Claim User</field>
         </record>
 
-        <!-- Access Rights for Claim Manager -->
+        <!-- Rules for Claim Manager -->
         <record id="claim_project_manager_rule" model="ir.rule">
             <field name="name">Claim Manager Rule</field>
             <field name="model_id" ref="project.model_project_project"/>
-            <field name="groups" eval="[(4, ref('claim_management.group_claim_manager'))]"/>
+            <field name="groups" eval="[(4, ref('group_claim_manager'))]"/>
             <field name="domain_force">[]</field>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
@@ -24,11 +22,11 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
-        <!-- Access Rights for Claim User -->
+        <!-- Rules for Claim User -->
         <record id="claim_project_user_rule" model="ir.rule">
             <field name="name">Claim User Rule</field>
             <field name="model_id" ref="project.model_project_project"/>
-            <field name="groups" eval="[(4, ref('claim_management.group_claim_user'))]"/>
+            <field name="groups" eval="[(4, ref('group_claim_user'))]"/>
             <field name="domain_force">[]</field>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
