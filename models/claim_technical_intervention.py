@@ -1,5 +1,7 @@
 from odoo import models, fields, api # type: ignore
 
+#  ----------------------> changement : to delete and use projet and tasks from project module
+
 class TechnicalIntervention(models.Model):
     _name = 'claim.technical.intervention'
     _description = 'Intervention Technique'

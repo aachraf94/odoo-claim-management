@@ -1,20 +1,13 @@
-from odoo import models, fields, api # type: ignore
+from odoo import models, fields, api
 
 class Employee(models.Model):
-    _name = 'claim.employee'
-    _description = 'Employé'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _inherit = 'hr.employee'
 
-    name = fields.Char('Nom', required=True)
-    first_name = fields.Char('Prénom')
+    agency_id = fields.Many2one('claim.agency', string='Agency')
     role = fields.Selection([
-        ('customer_service', 'Agent Clientèle'),
-        ('technician', 'Technicien'),
+        ('customer_service', 'Customer Service Agent'),
+        ('technician', 'Technician'),
         ('commercial', 'Commercial'),
-        ('manager', 'Responsable'),
-        ('monitoring', 'Cellule de veille')
-    ], string='Rôle', required=True)
-    agency_id = fields.Many2one('claim.agency', string='Agence')
-    phone = fields.Char('Téléphone')
-    email = fields.Char('Email')
-    active = fields.Boolean('Actif', default=True)
+        ('manager', 'Manager'),
+        ('monitoring', 'Watch Cell')
+    ], string='Role')

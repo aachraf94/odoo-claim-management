@@ -1,20 +1,21 @@
-from odoo import models, fields, api # type: ignore
+from odoo import models, fields, api
 
 class Claimant(models.Model):
     _name = 'claim.claimant'
-    _description = 'Réclamant'
+    _description = 'Claimant'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name = fields.Char('Nom', required=True)
-    first_name = fields.Char('Prénom')
-    company_name = fields.Char('Raison sociale')
-    address = fields.Text('Adresse')
-    city = fields.Char('Commune')
-    phone = fields.Char('Téléphone')
+    name = fields.Char('Name', required=True)
+    first_name = fields.Char('First Name')
+    company_name = fields.Char('Company Name', attrs={'invisible': [('type', '!=', 'company')]})
+    address = fields.Text('Address')
+    city = fields.Char('City')
+    phone = fields.Char('Phone')
     email = fields.Char('Email')
     type = fields.Selection([
-        ('citizen', 'Citoyen'),
-        ('company', 'Entreprise')
+        ('citizen', 'Citizen'),
+        ('company', 'Company')
     ], string='Type', required=True)
-    claim_ids = fields.One2many('claim.claim', 'claimant_id', string='Réclamations')
-    active = fields.Boolean('Actif', default=True)
+    claim_ids = fields.One2many('claim.claim', 'claimant_id', string='Claims')
+    active = fields.Boolean('Active', default=True)
+    additional_info = fields.Text('Additional Information')
