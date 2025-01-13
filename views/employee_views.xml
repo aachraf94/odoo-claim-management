@@ -1,45 +1,72 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <record id="view_employee_form" model="ir.ui.view">
-        <field name="name">employee.form</field>
-        <field name="model">hr.employee</field>
-        <field name="inherit_id" ref="hr.view_employee_form"/>
-        <field name="arch" type="xml">
-            <sheet position="inside">
-                <group string="Agency Information">
-                    <field name="agency_id" options="{'no_create': True}" />
-                </group>
-                <group string="Role Information">
-                    <field name="role" widget="selection" />
-                </group>
-            </sheet>
-        </field>
-    </record>
-
-    <record id="view_employee_tree" model="ir.ui.view">
-        <field name="name">employee.tree</field>
-        <field name="model">hr.employee</field>
-        <field name="inherit_id" ref="hr.view_employee_tree"/>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="name"/>
-                <field name="work_email"/>
-                <field name="work_phone"/>
-                <field name="agency_id"/>
-                <field name="role"/>
-            </tree>
-        </field>
-    </record>
-
+    <!-- Action for Employees -->
     <record id="action_employee_list" model="ir.actions.act_window">
         <field name="name">Employees</field>
         <field name="res_model">hr.employee</field>
         <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Manage employees and their roles in the claim management process.</p>
+        </field>
     </record>
 
-    <menuitem id="menu_employee_list" 
-              name="Employees" 
-              parent="menu_claim_config" 
-              action="action_employee_list" 
-              sequence="20"/>
+    <!-- Tree View for Employees -->
+    <record id="view_employee_tree" model="ir.ui.view">
+        <field name="name">hr.employee.tree</field>
+        <field name="model">hr.employee</field>
+        <field name="arch" type="xml">
+            <tree string="Employees">
+                <field name="name" string="Name"/>
+                <field name="job_title" string="Job Title"/>
+                <field name="agency_id" string="Agency"/>
+                <field name="role" string="Role"/>
+                <field name="work_phone" string="Phone"/>
+                <field name="work_email" string="Email"/>
+                <field name="active" string="Active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View for Employees -->
+    <record id="view_employee_form" model="ir.ui.view">
+        <field name="name">hr.employee.form</field>
+        <field name="model">hr.employee</field>
+        <field name="arch" type="xml">
+            <form string="Employee">
+                <sheet>
+                    <group>
+                        <field name="name" string="Name"/>
+                        <field name="job_title" string="Job Title"/>
+                        <field name="agency_id" string="Agency"/>
+                        <field name="role" string="Role"/>
+                        <field name="work_phone" string="Phone"/>
+                        <field name="work_email" string="Email"/>
+                        <field name="active" string="Active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View for Employees -->
+    <record id="view_employee_search" model="ir.ui.view">
+        <field name="name">hr.employee.search</field>
+        <field name="model">hr.employee</field>
+        <field name="arch" type="xml">
+            <search string="Employee Search">
+                <field name="name" string="Name"/>
+                <field name="job_title" string="Job Title"/>
+                <field name="agency_id" string="Agency"/>
+                <field name="role" string="Role"/>
+                <field name="work_phone" string="Phone"/>
+                <field name="work_email" string="Email"/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Agency" name="group_by_agency" context="{'group_by': 'agency_id'}"/>
+                    <filter string="Role" name="group_by_role" context="{'group_by': 'role'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
 </odoo>

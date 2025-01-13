@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Demo Data for Agencies -->
+    <record id="agency_demo_1" model="claim.agency">
+        <field name="name">Agency 1</field>
+        <field name="code">AG1</field>
+        <field name="address">123 Main Street, Algiers</field>
+        <field name="city">Algiers</field>
+        <field name="phone">+213 123 456 789</field>
+        <field name="manager_id" ref="hr.employee_admin"/> <!-- Assign the admin user as the manager -->
+    </record>
+
+    <record id="agency_demo_2" model="claim.agency">
+        <field name="name">Agency 2</field>
+        <field name="code">AG2</field>
+        <field name="address">456 Second Street, Oran</field>
+        <field name="city">Oran</field>
+        <field name="phone">+213 987 654 321</field>
+        <field name="manager_id" ref="hr.employee_admin"/> <!-- Assign the admin user as the manager -->
+    </record>
+
+    <!-- Demo Data for Claimants -->
+    <record id="claimant_demo_1" model="claim.claimant">
+        <field name="name">John Doe</field>
+        <field name="first_name">John</field>
+        <field name="type">citizen</field>
+        <field name="address">789 Third Street, Algiers</field>
+        <field name="city">Algiers</field>
+        <field name="phone">+213 555 123 456</field>
+        <field name="email">john.doe@example.com</field>
+    </record>
+
+    <record id="claimant_demo_2" model="claim.claimant">
+        <field name="name">ABC Company</field>
+        <field name="company_name">ABC Company</field>
+        <field name="type">company</field>
+        <field name="address">101 Business Road, Oran</field>
+        <field name="city">Oran</field>
+        <field name="phone">+213 555 654 321</field>
+        <field name="email">info@abccompany.com</field>
+    </record>
+
+    <!-- Demo Data for Claims -->
+    <record id="claim_demo_1" model="claim.claim">
+        <field name="name">CLAIM/0001</field>
+        <field name="date">2024-01-01</field>
+        <field name="subject">Water Leak</field>
+        <field name="description">There is a water leak in the kitchen.</field>
+        <field name="claimant_id" ref="claimant_demo_1"/>
+        <field name="agency_id" ref="agency_demo_1"/>
+        <field name="origin">citizen</field>
+        <field name="source">onsite</field>
+        <field name="type">technical</field>
+        <field name="urgent">True</field>
+        <field name="state">in_progress</field>
+        <field name="customer_service_agent_id" ref="hr.employee_admin"/> <!-- Assign the admin user as the agent -->
+    </record>
+
+    <record id="claim_demo_2" model="claim.claim">
+        <field name="name">CLAIM/0002</field>
+        <field name="date">2024-01-02</field>
+        <field name="subject">Billing Issue</field>
+        <field name="description">The water bill is higher than expected.</field>
+        <field name="claimant_id" ref="claimant_demo_2"/>
+        <field name="agency_id" ref="agency_demo_2"/>
+        <field name="origin">company</field>
+        <field name="source">web</field>
+        <field name="type">commercial</field>
+        <field name="urgent">False</field>
+        <field name="state">submitted</field>
+        <field name="customer_service_agent_id" ref="hr.employee_admin"/> <!-- Assign the admin user as the agent -->
+    </record>
+
+    <!-- Demo Data for Communications -->
+    <record id="communication_demo_1" model="claim.communication">
+        <field name="claim_id" ref="claim_demo_1"/>
+        <field name="date">2024-01-01 10:00:00</field>
+        <field name="agent_id" ref="hr.employee_admin"/> <!-- Assign the admin user as the agent -->
+        <field name="communication_type">outbound</field>
+        <field name="notes">Called the claimant to confirm the issue.</field>
+    </record>
+
+    <record id="communication_demo_2" model="claim.communication">
+        <field name="claim_id" ref="claim_demo_2"/>
+        <field name="date">2024-01-02 14:30:00</field>
+        <field name="agent_id" ref="hr.employee_admin"/> <!-- Assign the admin user as the agent -->
+        <field name="communication_type">inbound</field>
+        <field name="notes">Claimant called to follow up on the billing issue.</field>
+    </record>
+</odoo>

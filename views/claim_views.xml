@@ -1,279 +1,110 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Claim Tree View -->
+    <!-- Action for Claims -->
+    <record id="action_claim_list" model="ir.actions.act_window">
+        <field name="name">Claims</field>
+        <field name="res_model">claim.claim</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a new claim to track customer issues and complaints.</p>
+        </field>
+    </record>
+
+    <!-- Tree View for Claims -->
     <record id="view_claim_tree" model="ir.ui.view">
         <field name="name">claim.claim.tree</field>
         <field name="model">claim.claim</field>
         <field name="arch" type="xml">
-            <tree decoration-danger="urgent==True" 
-                  decoration-warning="state=='submitted'" 
-                  decoration-success="state=='resolved'" 
-                  decoration-info="state=='in_progress'" 
-                  decoration-muted="state in ('closed','archived')" 
-                  sample="1">
-                <field name="name"/>
-                <field name="date"/>
-                <field name="subject"/>
-                <field name="claimant_id"/>
-                <field name="agency_id"/>
-                <field name="type"/>
-                <field name="urgent"/>
-                <field name="gravity"/>
-                <field name="state"/>
-                <field name="customer_service_agent_id"/>
+            <tree string="Claims">
+                <field name="name" string="Reference"/>
+                <field name="date" string="Date"/>
+                <field name="subject" string="Subject"/>
+                <field name="claimant_id" string="Claimant"/>
+                <field name="agency_id" string="Agency"/>
+                <field name="state" string="Status"/>
+                <field name="priority" string="Priority"/>
+                <field name="type" string="Type"/>
+                <field name="urgent" string="Urgent"/>
             </tree>
         </field>
     </record>
 
-    <!-- Claim Form View -->
+    <!-- Form View for Claims -->
     <record id="view_claim_form" model="ir.ui.view">
         <field name="name">claim.claim.form</field>
         <field name="model">claim.claim</field>
         <field name="arch" type="xml">
-            <form>
-                <header>
-                    <button name="action_submit" 
-                            string="Submit" 
-                            type="object" 
-                            states="draft" 
-                            class="oe_highlight"/>
-                    <button name="action_start_processing" 
-                            string="Start Processing" 
-                            type="object" 
-                            states="submitted" 
-                            class="oe_highlight"/>
-                    <button name="action_resolve" 
-                            string="Mark as Resolved" 
-                            type="object" 
-                            states="in_progress" 
-                            class="oe_highlight"/>
-                    <button name="action_close" 
-                            string="Close" 
-                            type="object" 
-                            states="resolved" 
-                            class="oe_highlight"/>
-                    <button name="action_archive" 
-                            string="Archive" 
-                            type="object" 
-                            states="closed"/>
-                    <field name="state" 
-                           widget="statusbar" 
-                           statusbar_visible="draft,submitted,in_progress,resolved,closed"/>
-                </header>
+            <form string="Claim">
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" 
-                                type="object"
-                                name="action_view_communications" 
-                                icon="fa-comments">
-                            <field string="Communications" 
-                                   name="communication_count" 
-                                   widget="statinfo"/>
-                        </button>
-                    </div>
-                    <div class="oe_title">
-                        <h1>
-                            <field name="name" readonly="1"/>
-                        </h1>
-                        <h2>
-                            <field name="subject" placeholder="Claim Subject..."/>
-                        </h2>
-                    </div>
                     <group>
-                        <group>
-                            <field name="date"/>
-                            <field name="claimant_id"/>
-                            <field name="agency_id"/>
-                            <field name="project_id"/>
-                            <field name="origin"/>
-                            <field name="source"/>
-                        </group>
-                        <group>
-                            <field name="customer_service_agent_id"/>
-                            <field name="type"/>
-                            <field name="urgent"/>
-                            <field name="complexity"/>
-                            <field name="gravity"/>
-                        </group>
+                        <field name="name" string="Reference" readonly="1"/>
+                        <field name="date" string="Date"/>
+                        <field name="subject" string="Subject"/>
+                        <field name="description" string="Description"/>
+                        <field name="claimant_id" string="Claimant"/>
+                        <field name="agency_id" string="Agency"/>
+                        <field name="project_id" string="Related Project"/>
+                        <field name="team_id" string="Assigned Team"/>
+                        <field name="origin" string="Origin"/>
+                        <field name="source" string="Source"/>
+                        <field name="type" string="Type"/>
+                        <field name="urgent" string="Urgent"/>
+                        <field name="complexity" string="Complexity"/>
+                        <field name="gravity" string="Gravity"/>
+                        <field name="state" string="Status"/>
+                        <field name="customer_service_agent_id" string="Customer Service Agent"/>
+                        <field name="attachment_ids" string="Attachments"/>
                     </group>
-                    <notebook>
-                        <page string="Description" name="description">
-                            <field name="description" 
-                                   placeholder="Detailed description of the claim..."
-                                   nolabel="1"/>
-                        </page>
-                        <page string="Commercial Information" 
-                              name="commercial" 
-                              attrs="{'invisible': [('type', '!=', 'commercial')]}">
-                            <group>
-                                <group>
-                                    <field name="commercial_pv"/>
-                                    <field name="commercial_decision"/>
-                                    <field name="commercial_pv_date"/>
-                                </group>
-                            </group>
-                        </page>
-                        <page string="Customer Satisfaction" 
-                              name="satisfaction" 
-                              attrs="{'invisible': [('state', 'not in', ['resolved', 'closed', 'archived'])]}">
-                            <group>
-                                <group>
-                                    <field name="satisfaction_score" widget="priority"/>
-                                    <field name="satisfaction_comment"/>
-                                </group>
-                            </group>
-                        </page>
-                        <page string="Documents" name="documents">
-                            <field name="attachment_ids" widget="many2many_binary"/>
-                        </page>
-                    </notebook>
+
+                    <!-- Commercial PV Section -->
+                    <group string="Commercial PV">
+                        <field name="commercial_pv" string="PV"/>
+                        <field name="commercial_decision" string="Decision"/>
+                        <field name="commercial_pv_date" string="PV Date"/>
+                    </group>
+
+                    <!-- Customer Satisfaction Section -->
+                    <group string="Customer Satisfaction">
+                        <field name="satisfaction_score" string="Satisfaction Score"/>
+                        <field name="satisfaction_comment" string="Satisfaction Comment"/>
+                    </group>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers"/>
-                    <field name="activity_ids" widget="mail_activity"/>
-                    <field name="message_ids" widget="mail_thread"/>
-                </div>
+
+                <!-- Buttons for State Transitions -->
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary" states="draft"/>
+                    <button name="action_start_processing" string="Start Processing" type="object" class="btn-primary" states="submitted"/>
+                    <button name="action_resolve" string="Resolve" type="object" class="btn-primary" states="in_progress"/>
+                    <button name="action_close" string="Close" type="object" class="btn-primary" states="resolved"/>
+                    <button name="action_archive" string="Archive" type="object" class="btn-secondary" states="closed"/>
+                </header>
             </form>
         </field>
     </record>
 
-    <!-- Claim Kanban View -->
-    <record id="view_claim_kanban" model="ir.ui.view">
-        <field name="name">claim.claim.kanban</field>
-        <field name="model">claim.claim</field>
-        <field name="arch" type="xml">
-            <kanban default_group_by="state" 
-                    class="o_kanban_small_column" 
-                    sample="1">
-                <field name="name"/>
-                <field name="date"/>
-                <field name="subject"/>
-                <field name="claimant_id"/>
-                <field name="agency_id"/>
-                <field name="type"/>
-                <field name="urgent"/>
-                <field name="gravity"/>
-                <field name="state"/>
-                <field name="customer_service_agent_id"/>
-                <templates>
-                    <t t-name="kanban-box">
-                        <div t-attf-class="oe_kanban_global_click">
-                            <div class="oe_kanban_content">
-                                <div>
-                                    <strong class="o_kanban_record_title mb-1">
-                                        <span class="text-primary"><field name="name"/></span>
-                                    </strong>
-                                </div>
-                                <div class="text-muted">
-                                    <field name="subject"/>
-                                </div>
-                                <div class="mt-2">
-                                    <field name="claimant_id"/>
-                                </div>
-                                <div class="text-muted">
-                                    <field name="date"/>
-                                </div>
-                                <div class="o_kanban_record_bottom mt-2">
-                                    <div class="oe_kanban_bottom_left">
-                                        <span t-if="record.urgent.raw_value" 
-                                              class="badge badge-danger">Urgent</span>
-                                        <span t-att-class="'badge badge-' + (record.gravity.raw_value === 'high' ? 'danger' : record.gravity.raw_value === 'medium' ? 'warning' : 'success')">
-                                            <field name="gravity"/>
-                                        </span>
-                                    </div>
-                                    <div class="oe_kanban_bottom_right">
-                                        <field name="customer_service_agent_id" widget="many2one_avatar"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </t>
-                </templates>
-            </kanban>
-        </field>
-    </record>
-
-    <!-- Claim Search View -->
+    <!-- Search View for Claims -->
     <record id="view_claim_search" model="ir.ui.view">
         <field name="name">claim.claim.search</field>
         <field name="model">claim.claim</field>
         <field name="arch" type="xml">
-            <search>
-                <field name="name"/>
-                <field name="subject"/>
-                <field name="claimant_id"/>
-                <field name="agency_id"/>
-                <field name="customer_service_agent_id"/>
-                <field name="description"/>
-                <separator/>
-                <filter string="My Claims" 
-                        name="my_claims" 
-                        domain="[('customer_service_agent_id.user_id', '=', uid)]"/>
-                <filter string="Urgent Claims" 
-                        name="urgent" 
-                        domain="[('urgent', '=', True)]"/>
-                <separator/>
-                <filter string="Draft" 
-                        name="draft" 
-                        domain="[('state', '=', 'draft')]"/>
-                <filter string="In Progress" 
-                        name="in_progress" 
-                        domain="[('state', '=', 'in_progress')]"/>
-                <filter string="Resolved" 
-                        name="resolved" 
-                        domain="[('state', '=', 'resolved')]"/>
-                <group expand="0" string="Group By">
-                    <filter string="Status" 
-                            name="state" 
-                            context="{'group_by': 'state'}"/>
-                    <filter string="Agency" 
-                            name="agency" 
-                            context="{'group_by': 'agency_id'}"/>
-                    <filter string="Type" 
-                            name="type" 
-                            context="{'group_by': 'type'}"/>
-                    <filter string="Agent" 
-                            name="agent" 
-                            context="{'group_by': 'customer_service_agent_id'}"/>
+            <search string="Claim Search">
+                <field name="name" string="Reference"/>
+                <field name="subject" string="Subject"/>
+                <field name="claimant_id" string="Claimant"/>
+                <field name="agency_id" string="Agency"/>
+                <field name="state" string="Status"/>
+                <field name="type" string="Type"/>
+                <field name="urgent" string="Urgent"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="In Progress" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Resolved" name="resolved" domain="[('state', '=', 'resolved')]"/>
+                <filter string="Closed" name="closed" domain="[('state', '=', 'closed')]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Status" name="group_by_state" context="{'group_by': 'state'}"/>
+                    <filter string="Type" name="group_by_type" context="{'group_by': 'type'}"/>
+                    <filter string="Agency" name="group_by_agency" context="{'group_by': 'agency_id'}"/>
                 </group>
             </search>
-        </field>
-    </record>
-
-    <!-- Claim Calendar View -->
-    <record id="view_claim_calendar" model="ir.ui.view">
-        <field name="name">claim.claim.calendar</field>
-        <field name="model">claim.claim</field>
-        <field name="arch" type="xml">
-            <calendar string="Claims" 
-                      date_start="date" 
-                      color="state" 
-                      quick_add="False">
-                <field name="name"/>
-                <field name="subject"/>
-                <field name="claimant_id"/>
-                <field name="type"/>
-            </calendar>
-        </field>
-    </record>
-
-    <!-- Claim Action Window -->
-    <record id="action_claim_list" model="ir.actions.act_window">
-        <field name="name">Claims</field>
-        <field name="res_model">claim.claim</field>
-        <field name="view_mode">kanban,tree,form,calendar</field>
-        <field name="search_view_id" ref="view_claim_search"/>
-        <field name="context">{
-            'search_default_draft': 1,
-            'search_default_in_progress': 1
-        }</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Create your first claim
-            </p>
-            <p>
-                Track and manage customer claims efficiently.
-            </p>
         </field>
     </record>
 </odoo>

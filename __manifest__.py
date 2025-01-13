@@ -1,6 +1,6 @@
 {
     'name': 'Claim Management',
-    'version': '1.1',
+    'version': '1.0',
     'category': 'Services',
     'summary': 'Claim management for AlMiyah Djazair',
     'description': """
@@ -17,14 +17,14 @@
     'data': [
         'security/claim_security.xml',
         'security/ir.model.access.csv',
+        'views/menu_views.xml',
         'views/claim_views.xml',
         'views/claimant_views.xml',
         'views/agency_views.xml',
         'views/employee_views.xml',
         'views/communication_views.xml',
-        'views/menu_views.xml',
-        'report/claim_reports.xml',
-        'report/claim_report_template.xml',
+        # 'report/claim_reports.xml',
+        # 'report/claim_report_template.xml',
         'data/claim_sequence.xml',
     ],
     'demo': [

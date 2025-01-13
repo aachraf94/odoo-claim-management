@@ -1,4 +1,3 @@
-# models/claim.py
 from odoo import models, fields, api
 from odoo.exceptions import UserError
 
@@ -15,7 +14,8 @@ class Claim(models.Model):
     
     claimant_id = fields.Many2one('claim.claimant', string='Claimant', required=True)
     agency_id = fields.Many2one('claim.agency', string='Agency', required=True)
-    project_id = fields.Many2one('project.project', string='Related Project')
+    project_id = fields.Many2one('project.project', string='Related Project', required=False)
+    team_id = fields.Many2one('project.team', string='Assigned Team')
     
     origin = fields.Selection([
         ('citizen', 'Citizen'),
@@ -100,14 +100,3 @@ class Claim(models.Model):
 
     def action_archive(self):
         self.write({'state': 'archived'})
-        
-    def action_view_communications(self):
-        self.ensure_one()
-        return {
-            'name': 'Communications',
-            'type': 'ir.actions.act_window',
-            'res_model': 'claim.communication',
-            'view_mode': 'tree,form',
-            'domain': [('claim_id', '=', self.id)],
-            'context': {'default_claim_id': self.id},
-        }
