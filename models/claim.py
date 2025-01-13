@@ -1,6 +1,3 @@
-from odoo import models, fields, api
-from odoo.exceptions import UserError
-
 class Claim(models.Model):
     _name = 'claim.claim'
     _description = 'Claim'
@@ -34,6 +31,12 @@ class Claim(models.Model):
         ('technical', 'Technical'),
         ('commercial', 'Commercial')
     ], string='Type', tracking=True)
+    
+    priority = fields.Selection([
+        ('low', 'Low'),
+        ('medium', 'Medium'),
+        ('high', 'High')
+    ], string='Priority', default='medium', tracking=True) 
     
     urgent = fields.Boolean('Urgent', tracking=True)
     complexity = fields.Selection([

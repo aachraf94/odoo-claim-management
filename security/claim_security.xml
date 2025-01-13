@@ -49,14 +49,14 @@
         <!-- Claim Rules -->
         <record id="claim_user_rule" model="ir.rule">
             <field name="name">Claim User: Access Own Agency Claims</field>
-            <field name="model_id" ref="model_claim_claim"/>
+            <field name="model_id" ref="claim_management.model_claim_claim"/>
             <field name="groups" eval="[(4, ref('group_claim_user'))]"/>
             <field name="domain_force">[('agency_id', '=', user.employee_id.agency_id.id)]</field>
         </record>
 
         <record id="claim_manager_rule" model="ir.rule">
             <field name="name">Claim Manager: Access All Claims</field>
-            <field name="model_id" ref="model_claim_claim"/>
+            <field name="model_id" ref="claim_management.model_claim_claim"/>
             <field name="groups" eval="[(4, ref('group_claim_manager'))]"/>
             <field name="domain_force">[]</field>
         </record>
@@ -64,14 +64,14 @@
         <!-- Agency Rules -->
         <record id="agency_user_rule" model="ir.rule">
             <field name="name">Agency User: Read Own Agency</field>
-            <field name="model_id" ref="model_claim_agency"/>
+            <field name="model_id" ref="claim_management.model_claim_agency"/>
             <field name="groups" eval="[(4, ref('group_claim_user'))]"/>
             <field name="domain_force">[('id', '=', user.employee_id.agency_id.id)]</field>
         </record>
 
         <record id="agency_manager_rule" model="ir.rule">
             <field name="name">Agency Manager: Access All Agencies</field>
-            <field name="model_id" ref="model_claim_agency"/>
+            <field name="model_id" ref="claim_management.model_claim_agency"/>
             <field name="groups" eval="[(4, ref('group_claim_manager'))]"/>
             <field name="domain_force">[]</field>
         </record>
@@ -79,14 +79,14 @@
         <!-- Claimant Rules -->
         <record id="claimant_user_rule" model="ir.rule">
             <field name="name">Claimant User: Access Agency Claimants</field>
-            <field name="model_id" ref="model_claim_claimant"/>
+            <field name="model_id" ref="claim_management.model_claim_claimant"/>
             <field name="groups" eval="[(4, ref('group_claim_user'))]"/>
             <field name="domain_force">[('claim_ids.agency_id', '=', user.employee_id.agency_id.id)]</field>
         </record>
 
         <record id="claimant_manager_rule" model="ir.rule">
             <field name="name">Claimant Manager: Access All Claimants</field>
-            <field name="model_id" ref="model_claim_claimant"/>
+            <field name="model_id" ref="claim_management.model_claim_claimant"/>
             <field name="groups" eval="[(4, ref('group_claim_manager'))]"/>
             <field name="domain_force">[]</field>
         </record>
