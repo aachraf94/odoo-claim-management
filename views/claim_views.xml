@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+<!-- 
     <!-- Action for Claims -->
     <record id="action_claim_list" model="ir.actions.act_window">
         <field name="name">Claims</field>
@@ -106,5 +107,5 @@
                 </group>
             </search>
         </field>
-    </record>
+    </record> -->
 </odoo>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+<!-- 
     <!-- Action for Employees -->
     <record id="action_employee_list" model="ir.actions.act_window">
         <field name="name">Employees</field>
@@ -68,5 +69,5 @@
                 </group>
             </search>
         </field>
-    </record>
+    </record> -->
 </odoo>

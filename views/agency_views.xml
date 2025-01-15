@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+<!-- 
     <!-- Action for Agencies -->
     <record id="action_agency_list" model="ir.actions.act_window">
         <field name="name">Agencies</field>
@@ -88,5 +89,5 @@
                 </group>
             </search>
         </field>
-    </record>
+    </record> -->
 </odoo>

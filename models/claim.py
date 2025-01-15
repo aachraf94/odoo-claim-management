@@ -1,3 +1,5 @@
+from odoo import models, fields, api
+
 class Claim(models.Model):
     _name = 'claim.claim'
     _description = 'Claim'
