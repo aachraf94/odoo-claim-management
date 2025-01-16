@@ -144,5 +144,9 @@
     </record>
 
     <!-- Menu Item -->
-    <menuitem id="menu_claim_list" name="All Claims" parent="menu_claim_main" action="action_claim_list" sequence="10"/>
+    <menuitem id="menu_claim_list"
+            name="All Claims"
+            parent="menu_claim_main"
+            action="action_claim_list"
+            sequence="10"/>
 </odoo>
