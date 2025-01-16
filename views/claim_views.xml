@@ -43,26 +43,26 @@
                             string="Submit" 
                             type="object" 
                             class="oe_highlight"
-                            invisible="state != 'draft'"/>
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"/>
                     <button name="action_start_processing" 
                             string="Start Processing" 
                             type="object" 
                             class="oe_highlight"
-                            invisible="state != 'submitted'"/>
+                            attrs="{'invisible': [('state', '!=', 'submitted')]}"/>
                     <button name="action_resolve" 
                             string="Resolve" 
                             type="object" 
                             class="oe_highlight"
-                            invisible="state != 'in_progress'"/>
+                            attrs="{'invisible': [('state', '!=', 'in_progress')]}"/>
                     <button name="action_close" 
                             string="Close" 
                             type="object" 
                             class="oe_highlight"
-                            invisible="state != 'resolved'"/>
+                            attrs="{'invisible': [('state', '!=', 'resolved')]}"/>
                     <button name="action_archive" 
                             string="Archive" 
                             type="object"
-                            invisible="state != 'closed'"/>
+                            attrs="{'invisible': [('state', '!=', 'closed')]}"/>
                     <field name="state" widget="statusbar" 
                            statusbar_visible="draft,submitted,in_progress,resolved,closed"/>
                 </header>
@@ -88,8 +88,8 @@
                             <field name="urgent"/>
                             <field name="complexity"/>
                             <field name="gravity"/>
-                            <field name="project_id" invisible="state == 'draft'"/>
-                            <field name="team_id" invisible="state == 'draft'"/>
+                            <field name="project_id" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                            <field name="team_id" attrs="{'invisible': [('state', '=', 'draft')]}"/>
                         </group>
                     </group>
                     <notebook>
@@ -100,7 +100,7 @@
                             <field name="attachment_ids" widget="many2many_binary"/>
                         </page>
                         <page string="Commercial Information" name="commercial"
-                              invisible="type != 'commercial'">
+                              attrs="{'invisible': [('type', '!=', 'commercial')]}">
                             <group>
                                 <group>
                                     <field name="commercial_pv"/>
@@ -112,7 +112,7 @@
                             </group>
                         </page>
                         <page string="Customer Satisfaction" name="satisfaction"
-                              invisible="!state in ['resolved', 'closed', 'archived']">
+                              attrs="{'invisible': [('state', 'not in', ['resolved', 'closed', 'archived'])]}">
                             <group>
                                 <group>
                                     <field name="satisfaction_score" widget="radio"/>
