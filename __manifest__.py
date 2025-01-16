@@ -21,11 +21,11 @@
         'views/claim_views.xml',
         'views/claimant_views.xml',
         'views/agency_views.xml',
+        'views/communication_views.xml',        
         'views/employee_views.xml',
-        'views/communication_views.xml',
         # 'report/claim_reports.xml',
         # 'report/claim_report_template.xml',
-        'data/claim_sequence.xml',
+        'data/claim_sequence.xml',        
     ],
     'demo': [
         'demo/claim_demo.xml',

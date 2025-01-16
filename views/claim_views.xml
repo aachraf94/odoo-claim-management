@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 <!-- 
-    <!-- Action for Claims -->
+      Action for Claims  
     <record id="action_claim_list" model="ir.actions.act_window">
         <field name="name">Claims</field>
         <field name="res_model">claim.claim</field>

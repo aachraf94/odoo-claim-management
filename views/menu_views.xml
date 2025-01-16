@@ -3,8 +3,7 @@
     <!-- Main Menu -->
     <menuitem id="menu_claim_root" 
         name="Claims Management" 
-        sequence="10" 
-        web_icon="claim_management,static/description/icon.png"/>
+        sequence="10"/>
 
     <!-- Claims Menu -->
     <menuitem id="menu_claim_main" 
@@ -12,11 +11,10 @@
         parent="menu_claim_root" 
         sequence="10"/>
 
-    <!-- <menuitem id="menu_claim_list" 
+    <menuitem id="menu_claim_list" 
         name="All Claims" 
         parent="menu_claim_main" 
-        action="action_claim_list" 
-        sequence="10"/> -->
+        sequence="10"/>
 
     <!-- Claimants Menu -->
     <menuitem id="menu_claimant_main" 
@@ -24,11 +22,10 @@
         parent="menu_claim_root" 
         sequence="20"/>
 
-    <!-- <menuitem id="menu_claimant_list" 
+    <menuitem id="menu_claimant_list" 
         name="All Claimants" 
         parent="menu_claimant_main" 
-        action="action_claimant_list" 
-        sequence="10"/> -->
+        sequence="10"/>
 
     <!-- Operations Menu -->
     <menuitem id="menu_operations" 
@@ -36,17 +33,15 @@
         parent="menu_claim_root" 
         sequence="30"/>
 
-    <!-- <menuitem id="menu_projects" 
+    <menuitem id="menu_projects" 
         name="Projects" 
         parent="menu_operations" 
-        action="action_claim_projects" 
-        sequence="10"/> -->
+        sequence="10"/>
 
-    <!-- <menuitem id="menu_communications" 
+    <menuitem id="menu_communications" 
         name="Communications" 
         parent="menu_operations" 
-        action="action_communications" 
-        sequence="20"/> -->
+        sequence="20"/>
 
     <!-- Configuration Menu -->
     <menuitem id="menu_claim_config" 
@@ -54,15 +49,13 @@
         parent="menu_claim_root" 
         sequence="100"/>
 
-    <!-- <menuitem id="menu_agency" 
+    <menuitem id="menu_agency" 
         name="Agencies" 
         parent="menu_claim_config" 
-        action="action_agency_list" 
-        sequence="10"/> -->
+        sequence="10"/>
 
-    <!-- <menuitem id="menu_employee" 
+    <menuitem id="menu_employee" 
         name="Employees" 
         parent="menu_claim_config" 
-        action="action_employee_list" 
-        sequence="20"/>     -->
+        sequence="20"/>    
 </odoo>

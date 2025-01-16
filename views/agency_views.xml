@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 <!-- 
-    <!-- Action for Agencies -->
+    Action for Agencies
     <record id="action_agency_list" model="ir.actions.act_window">
         <field name="name">Agencies</field>
         <field name="res_model">claim.agency</field>
