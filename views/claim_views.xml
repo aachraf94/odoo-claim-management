@@ -1,111 +1,180 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-<!-- 
-      Action for Claims  
+    <!-- Action for Claims -->
     <record id="action_claim_list" model="ir.actions.act_window">
         <field name="name">Claims</field>
         <field name="res_model">claim.claim</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,search</field>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">Create a new claim to track customer issues and complaints.</p>
+            <p class="o_view_nocontent_smiling_face">
+                Create a new claim to track customer issues and complaints.
+            </p>
         </field>
     </record>
 
-    Tree View for Claims
+    <!-- Tree View for Claims -->
     <record id="view_claim_tree" model="ir.ui.view">
         <field name="name">claim.claim.tree</field>
         <field name="model">claim.claim</field>
         <field name="arch" type="xml">
-            <tree string="Claims">
-                <field name="name" string="Reference"/>
-                <field name="date" string="Date"/>
-                <field name="subject" string="Subject"/>
-                <field name="claimant_id" string="Claimant"/>
-                <field name="agency_id" string="Agency"/>
-                <field name="state" string="Status"/>
-                <field name="priority" string="Priority"/>
-                <field name="type" string="Type"/>
-                <field name="urgent" string="Urgent"/>
+            <tree string="Claims" decoration-danger="urgent" decoration-info="state == 'draft'" decoration-success="state == 'closed'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="subject"/>
+                <field name="claimant_id"/>
+                <field name="agency_id"/>
+                <field name="type"/>
+                <field name="priority"/>
+                <field name="urgent"/>
+                <field name="state"/>
+                <field name="customer_service_agent_id"/>
             </tree>
         </field>
     </record>
 
-    Form View for Claims
+    <!-- Form View for Claims -->
     <record id="view_claim_form" model="ir.ui.view">
         <field name="name">claim.claim.form</field>
         <field name="model">claim.claim</field>
         <field name="arch" type="xml">
             <form string="Claim">
-                <sheet>
-                    <group>
-                        <field name="name" string="Reference" readonly="1"/>
-                        <field name="date" string="Date"/>
-                        <field name="subject" string="Subject"/>
-                        <field name="description" string="Description"/>
-                        <field name="claimant_id" string="Claimant"/>
-                        <field name="agency_id" string="Agency"/>
-                        <field name="project_id" string="Related Project"/>
-                        <field name="team_id" string="Assigned Team"/>
-                        <field name="origin" string="Origin"/>
-                        <field name="source" string="Source"/>
-                        <field name="type" string="Type"/>
-                        <field name="urgent" string="Urgent"/>
-                        <field name="complexity" string="Complexity"/>
-                        <field name="gravity" string="Gravity"/>
-                        <field name="state" string="Status"/>
-                        <field name="customer_service_agent_id" string="Customer Service Agent"/>
-                        <field name="attachment_ids" string="Attachments"/>
-                    </group>
-
-                    Commercial PV Section
-                    <group string="Commercial PV">
-                        <field name="commercial_pv" string="PV"/>
-                        <field name="commercial_decision" string="Decision"/>
-                        <field name="commercial_pv_date" string="PV Date"/>
-                    </group>
-
-                    Customer Satisfaction Section
-                    <group string="Customer Satisfaction">
-                        <field name="satisfaction_score" string="Satisfaction Score"/>
-                        <field name="satisfaction_comment" string="Satisfaction Comment"/>
-                    </group>
-                </sheet>
-
-                Buttons for State Transitions
                 <header>
-                    <button name="action_submit" string="Submit" type="object" class="btn-primary" states="draft"/>
-                    <button name="action_start_processing" string="Start Processing" type="object" class="btn-primary" states="submitted"/>
-                    <button name="action_resolve" string="Resolve" type="object" class="btn-primary" states="in_progress"/>
-                    <button name="action_close" string="Close" type="object" class="btn-primary" states="resolved"/>
-                    <button name="action_archive" string="Archive" type="object" class="btn-secondary" states="closed"/>
+                    <button name="action_submit" 
+                            string="Submit" 
+                            type="object" 
+                            class="oe_highlight"
+                            invisible="state != 'draft'"/>
+                    <button name="action_start_processing" 
+                            string="Start Processing" 
+                            type="object" 
+                            class="oe_highlight"
+                            invisible="state != 'submitted'"/>
+                    <button name="action_resolve" 
+                            string="Resolve" 
+                            type="object" 
+                            class="oe_highlight"
+                            invisible="state != 'in_progress'"/>
+                    <button name="action_close" 
+                            string="Close" 
+                            type="object" 
+                            class="oe_highlight"
+                            invisible="state != 'resolved'"/>
+                    <button name="action_archive" 
+                            string="Archive" 
+                            type="object"
+                            invisible="state != 'closed'"/>
+                    <field name="state" widget="statusbar" 
+                           statusbar_visible="draft,submitted,in_progress,resolved,closed"/>
                 </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="subject"/>
+                            <field name="claimant_id"/>
+                            <field name="agency_id"/>
+                            <field name="customer_service_agent_id"/>
+                            <field name="type"/>
+                        </group>
+                        <group>
+                            <field name="origin"/>
+                            <field name="source"/>
+                            <field name="priority" widget="priority"/>
+                            <field name="urgent"/>
+                            <field name="complexity"/>
+                            <field name="gravity"/>
+                            <field name="project_id" invisible="state == 'draft'"/>
+                            <field name="team_id" invisible="state == 'draft'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Enter claim description..."/>
+                        </page>
+                        <page string="Attachments" name="attachments">
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </page>
+                        <page string="Commercial Information" name="commercial"
+                              invisible="type != 'commercial'">
+                            <group>
+                                <group>
+                                    <field name="commercial_pv"/>
+                                    <field name="commercial_decision"/>
+                                </group>
+                                <group>
+                                    <field name="commercial_pv_date"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Customer Satisfaction" name="satisfaction"
+                              invisible="!state in ['resolved', 'closed', 'archived']">
+                            <group>
+                                <group>
+                                    <field name="satisfaction_score" widget="radio"/>
+                                    <field name="satisfaction_comment"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
 
-    Search View for Claims
+    <!-- Search View for Claims -->
     <record id="view_claim_search" model="ir.ui.view">
         <field name="name">claim.claim.search</field>
         <field name="model">claim.claim</field>
         <field name="arch" type="xml">
-            <search string="Claim Search">
-                <field name="name" string="Reference"/>
-                <field name="subject" string="Subject"/>
-                <field name="claimant_id" string="Claimant"/>
-                <field name="agency_id" string="Agency"/>
-                <field name="state" string="Status"/>
-                <field name="type" string="Type"/>
-                <field name="urgent" string="Urgent"/>
+            <search string="Search Claims">
+                <field name="name"/>
+                <field name="subject"/>
+                <field name="claimant_id"/>
+                <field name="agency_id"/>
+                <field name="customer_service_agent_id"/>
+                <separator/>
+                <filter string="My Claims" name="my_claims" 
+                        domain="[('customer_service_agent_id.user_id', '=', uid)]"/>
+                <filter string="Urgent" name="urgent" domain="[('urgent', '=', True)]"/>
+                <separator/>
                 <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Submitted" name="submitted" domain="[('state', '=', 'submitted')]"/>
                 <filter string="In Progress" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
                 <filter string="Resolved" name="resolved" domain="[('state', '=', 'resolved')]"/>
                 <filter string="Closed" name="closed" domain="[('state', '=', 'closed')]"/>
-                <group expand="1" string="Group By">
-                    <filter string="Status" name="group_by_state" context="{'group_by': 'state'}"/>
-                    <filter string="Type" name="group_by_type" context="{'group_by': 'type'}"/>
-                    <filter string="Agency" name="group_by_agency" context="{'group_by': 'agency_id'}"/>
+                <separator/>
+                <filter string="Technical" name="technical" domain="[('type', '=', 'technical')]"/>
+                <filter string="Commercial" name="commercial" domain="[('type', '=', 'commercial')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_by_state" domain="[]" 
+                            context="{'group_by': 'state'}"/>
+                    <filter string="Type" name="group_by_type" domain="[]" 
+                            context="{'group_by': 'type'}"/>
+                    <filter string="Agency" name="group_by_agency" domain="[]" 
+                            context="{'group_by': 'agency_id'}"/>
+                    <filter string="Customer Service Agent" name="group_by_agent" domain="[]" 
+                            context="{'group_by': 'customer_service_agent_id'}"/>
+                    <filter string="Month" name="group_by_month" domain="[]" 
+                            context="{'group_by': 'date:month'}"/>
                 </group>
             </search>
         </field>
-    </record> -->
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_claim_list"
+              name="All Claims"
+              parent="menu_claim_main"
+              action="action_claim_list"
+              sequence="10"/>
 </odoo>
