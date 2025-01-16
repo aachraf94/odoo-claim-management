@@ -79,7 +79,7 @@
                             <field name="complexity"/>
                             <field name="gravity"/>
                             <field name="project_id" invisible="state == 'draft'"/>
-                            <field name="team_id" invisible="state == 'draft'"/>
+                            <!-- <field name="team_id" invisible="state == 'draft'"/> -->
                         </group>
                     </group>
                     <notebook>
