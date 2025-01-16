@@ -2,7 +2,8 @@
 <odoo>
     <!-- Main Menu -->
     <menuitem id="menu_claim_root" 
-        name="Claims Management" 
+        name="Claims Management"
+        web_icon="claim,static/description/icon.png" 
         sequence="10"/>
 
     <!-- Claims Menu -->
