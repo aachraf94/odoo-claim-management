@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-<!-- 
+
     <!-- Demo Data for Agencies -->
     <record id="agency_demo_1" model="claim.agency">
         <field name="name">Agency 1</field>
@@ -87,5 +87,5 @@
         <field name="agent_id" ref="hr.employee_admin"/> <!-- Assign the admin user as the agent -->
         <field name="communication_type">inbound</field>
         <field name="notes">Claimant called to follow up on the billing issue.</field>
-    </record> -->
+    </record>
 </odoo>

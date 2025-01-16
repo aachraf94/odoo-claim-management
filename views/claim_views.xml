@@ -12,6 +12,16 @@
         </field>
     </record>
 
+    <!-- seq for the name -->
+    <record id="seq_claim" model="ir.sequence">
+        <field name="name">Claim Sequence</field>
+        <field name="code">claim.claim</field>
+        <field name="prefix">CLM/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+
     <!-- Tree View for Claims -->
     <record id="view_claim_tree" model="ir.ui.view">
         <field name="name">claim.claim.tree</field>
