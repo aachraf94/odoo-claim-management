@@ -11,7 +11,7 @@
         </field>
     </record>
 
-    <!-- Tree View for Employees -->
+    Tree View for Employees
     <record id="view_employee_tree" model="ir.ui.view">
         <field name="name">hr.employee.tree</field>
         <field name="model">hr.employee</field>
@@ -28,7 +28,7 @@
         </field>
     </record>
 
-    <!-- Form View for Employees -->
+    Form View for Employees
     <record id="view_employee_form" model="ir.ui.view">
         <field name="name">hr.employee.form</field>
         <field name="model">hr.employee</field>
@@ -49,7 +49,7 @@
         </field>
     </record>
 
-    <!-- Search View for Employees -->
+    Search View for Employees
     <record id="view_employee_search" model="ir.ui.view">
         <field name="name">hr.employee.search</field>
         <field name="model">hr.employee</field>

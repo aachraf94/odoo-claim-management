@@ -11,7 +11,7 @@
         </field>
     </record>
 
-    <!-- Tree View for Claims -->
+    Tree View for Claims
     <record id="view_claim_tree" model="ir.ui.view">
         <field name="name">claim.claim.tree</field>
         <field name="model">claim.claim</field>
@@ -30,7 +30,7 @@
         </field>
     </record>
 
-    <!-- Form View for Claims -->
+    Form View for Claims
     <record id="view_claim_form" model="ir.ui.view">
         <field name="name">claim.claim.form</field>
         <field name="model">claim.claim</field>
@@ -57,21 +57,21 @@
                         <field name="attachment_ids" string="Attachments"/>
                     </group>
 
-                    <!-- Commercial PV Section -->
+                    Commercial PV Section
                     <group string="Commercial PV">
                         <field name="commercial_pv" string="PV"/>
                         <field name="commercial_decision" string="Decision"/>
                         <field name="commercial_pv_date" string="PV Date"/>
                     </group>
 
-                    <!-- Customer Satisfaction Section -->
+                    Customer Satisfaction Section
                     <group string="Customer Satisfaction">
                         <field name="satisfaction_score" string="Satisfaction Score"/>
                         <field name="satisfaction_comment" string="Satisfaction Comment"/>
                     </group>
                 </sheet>
 
-                <!-- Buttons for State Transitions -->
+                Buttons for State Transitions
                 <header>
                     <button name="action_submit" string="Submit" type="object" class="btn-primary" states="draft"/>
                     <button name="action_start_processing" string="Start Processing" type="object" class="btn-primary" states="submitted"/>
@@ -83,7 +83,7 @@
         </field>
     </record>
 
-    <!-- Search View for Claims -->
+    Search View for Claims
     <record id="view_claim_search" model="ir.ui.view">
         <field name="name">claim.claim.search</field>
         <field name="model">claim.claim</field>

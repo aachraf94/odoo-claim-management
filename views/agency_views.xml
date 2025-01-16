@@ -11,7 +11,7 @@
         </field>
     </record>
 
-    <!-- Tree View for Agencies -->
+    Tree View for Agencies
     <record id="view_agency_tree" model="ir.ui.view">
         <field name="name">claim.agency.tree</field>
         <field name="model">claim.agency</field>
@@ -27,7 +27,7 @@
         </field>
     </record>
 
-    <!-- Form View for Agencies -->
+    Form View for Agencies
     <record id="view_agency_form" model="ir.ui.view">
         <field name="name">claim.agency.form</field>
         <field name="model">claim.agency</field>
@@ -44,7 +44,7 @@
                         <field name="active" string="Active"/>
                     </group>
 
-                    <!-- Employees Section -->
+                    Employees Section
                     <notebook>
                         <page string="Employees">
                             <field name="employee_ids" string="Employees">
@@ -70,7 +70,7 @@
         </field>
     </record>
 
-    <!-- Search View for Agencies -->
+    Search View for Agencies
     <record id="view_agency_search" model="ir.ui.view">
         <field name="name">claim.agency.search</field>
         <field name="model">claim.agency</field>

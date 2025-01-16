@@ -11,7 +11,7 @@
         </field>
     </record>
 
-    <!-- Tree View for Claimants -->
+    Tree View for Claimants
     <record id="view_claimant_tree" model="ir.ui.view">
         <field name="name">claim.claimant.tree</field>
         <field name="model">claim.claimant</field>
@@ -29,7 +29,7 @@
         </field>
     </record>
 
-    <!-- Form View for Claimants -->
+    Form View for Claimants
     <record id="view_claimant_form" model="ir.ui.view">
         <field name="name">claim.claimant.form</field>
         <field name="model">claim.claimant</field>
@@ -49,7 +49,7 @@
                         <field name="additional_info" string="Additional Information"/>
                     </group>
 
-                    <!-- Claims Section -->
+                    Claims Section
                     <notebook>
                         <page string="Claims">
                             <field name="claim_ids" string="Claims">
@@ -75,7 +75,7 @@
         </field>
     </record>
 
-    <!-- Search View for Claimants -->
+    Search View for Claimants
     <record id="view_claimant_search" model="ir.ui.view">
         <field name="name">claim.claimant.search</field>
         <field name="model">claim.claimant</field>
