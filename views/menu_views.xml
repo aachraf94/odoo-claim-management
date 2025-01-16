@@ -12,10 +12,10 @@
         parent="menu_claim_root" 
         sequence="10"/>
 
-    <menuitem id="menu_claim_list" 
+    <!-- <menuitem id="menu_claim_list" 
         name="All Claims" 
         parent="menu_claim_main" 
-        sequence="10"/>
+        sequence="10"/> -->
 
     <!-- Claimants Menu -->
     <menuitem id="menu_claimant_main" 
