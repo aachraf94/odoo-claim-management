@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <odoo>
     <!-- Action for Claims -->
     <record id="action_claim_list" model="ir.actions.act_window">
@@ -39,32 +39,12 @@
         <field name="arch" type="xml">
             <form string="Claim">
                 <header>
-                    <button name="action_submit" 
-                            string="Submit" 
-                            type="object" 
-                            class="oe_highlight"
-                            attrs="{'invisible': [('state', '!=', 'draft')]}"/>
-                    <button name="action_start_processing" 
-                            string="Start Processing" 
-                            type="object" 
-                            class="oe_highlight"
-                            attrs="{'invisible': [('state', '!=', 'submitted')]}"/>
-                    <button name="action_resolve" 
-                            string="Resolve" 
-                            type="object" 
-                            class="oe_highlight"
-                            attrs="{'invisible': [('state', '!=', 'in_progress')]}"/>
-                    <button name="action_close" 
-                            string="Close" 
-                            type="object" 
-                            class="oe_highlight"
-                            attrs="{'invisible': [('state', '!=', 'resolved')]}"/>
-                    <button name="action_archive" 
-                            string="Archive" 
-                            type="object"
-                            attrs="{'invisible': [('state', '!=', 'closed')]}"/>
-                    <field name="state" widget="statusbar" 
-                           statusbar_visible="draft,submitted,in_progress,resolved,closed"/>
+                    <button name="action_submit" string="Submit" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_start_processing" string="Start Processing" type="object" class="oe_highlight" invisible="state != 'submitted'"/>
+                    <button name="action_resolve" string="Resolve" type="object" class="oe_highlight" invisible="state != 'in_progress'"/>
+                    <button name="action_close" string="Close" type="object" class="oe_highlight" invisible="state != 'resolved'"/>
+                    <button name="action_archive" string="Archive" type="object" invisible="state != 'closed'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,in_progress,resolved,closed"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
@@ -88,8 +68,8 @@
                             <field name="urgent"/>
                             <field name="complexity"/>
                             <field name="gravity"/>
-                            <field name="project_id" attrs="{'invisible': [('state', '=', 'draft')]}"/>
-                            <field name="team_id" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                            <field name="project_id" invisible="state == 'draft'"/>
+                            <field name="team_id" invisible="state == 'draft'"/>
                         </group>
                     </group>
                     <notebook>
@@ -99,8 +79,7 @@
                         <page string="Attachments" name="attachments">
                             <field name="attachment_ids" widget="many2many_binary"/>
                         </page>
-                        <page string="Commercial Information" name="commercial"
-                              attrs="{'invisible': [('type', '!=', 'commercial')]}">
+                        <page string="Commercial Information" name="commercial" invisible="type != 'commercial'">
                             <group>
                                 <group>
                                     <field name="commercial_pv"/>
@@ -111,8 +90,7 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Customer Satisfaction" name="satisfaction"
-                              attrs="{'invisible': [('state', 'not in', ['resolved', 'closed', 'archived'])]}">
+                        <page string="Customer Satisfaction" name="satisfaction" invisible="state not in ['resolved', 'closed', 'archived']">
                             <group>
                                 <group>
                                     <field name="satisfaction_score" widget="radio"/>
@@ -143,8 +121,7 @@
                 <field name="agency_id"/>
                 <field name="customer_service_agent_id"/>
                 <separator/>
-                <filter string="My Claims" name="my_claims" 
-                        domain="[('customer_service_agent_id.user_id', '=', uid)]"/>
+                <filter string="My Claims" name="my_claims" domain="[('customer_service_agent_id.user_id', '=', uid)]"/>
                 <filter string="Urgent" name="urgent" domain="[('urgent', '=', True)]"/>
                 <separator/>
                 <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
@@ -156,25 +133,16 @@
                 <filter string="Technical" name="technical" domain="[('type', '=', 'technical')]"/>
                 <filter string="Commercial" name="commercial" domain="[('type', '=', 'commercial')]"/>
                 <group expand="0" string="Group By">
-                    <filter string="Status" name="group_by_state" domain="[]" 
-                            context="{'group_by': 'state'}"/>
-                    <filter string="Type" name="group_by_type" domain="[]" 
-                            context="{'group_by': 'type'}"/>
-                    <filter string="Agency" name="group_by_agency" domain="[]" 
-                            context="{'group_by': 'agency_id'}"/>
-                    <filter string="Customer Service Agent" name="group_by_agent" domain="[]" 
-                            context="{'group_by': 'customer_service_agent_id'}"/>
-                    <filter string="Month" name="group_by_month" domain="[]" 
-                            context="{'group_by': 'date:month'}"/>
+                    <filter string="Status" name="group_by_state" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Type" name="group_by_type" domain="[]" context="{'group_by': 'type'}"/>
+                    <filter string="Agency" name="group_by_agency" domain="[]" context="{'group_by': 'agency_id'}"/>
+                    <filter string="Customer Service Agent" name="group_by_agent" domain="[]" context="{'group_by': 'customer_service_agent_id'}"/>
+                    <filter string="Month" name="group_by_month" domain="[]" context="{'group_by': 'date:month'}"/>
                 </group>
             </search>
         </field>
     </record>
 
     <!-- Menu Item -->
-    <menuitem id="menu_claim_list"
-              name="All Claims"
-              parent="menu_claim_main"
-              action="action_claim_list"
-              sequence="10"/>
+    <menuitem id="menu_claim_list" name="All Claims" parent="menu_claim_main" action="action_claim_list" sequence="10"/>
 </odoo>
