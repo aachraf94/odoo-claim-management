@@ -98,4 +98,10 @@
         </field>
     </record>
 
+    <!-- Menu Item -->
+    <menuitem id="menu_agency"
+              name="Agencies"
+              parent="menu_claim_config"
+              action="action_agency_list"
+              sequence="10"/>
 </odoo>
