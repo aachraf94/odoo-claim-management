@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import UserError
 
 class Claim(models.Model):
     _name = 'claim.claim'
@@ -11,28 +12,28 @@ class Claim(models.Model):
     subject = fields.Char('Subject', required=True, tracking=True)
     description = fields.Text('Description', tracking=True)
     
-    claimant_id = fields.Many2one('claim.claimant', string='Claimant', required=True)
-    agency_id = fields.Many2one('claim.agency', string='Agency', required=True)
-    project_id = fields.Many2one('project.project', string='Related Project', required=False)
-    team_id = fields.Many2one('project.team', string='Assigned Team')
+    # Make these fields not required by default
+    claimant_id = fields.Many2one('claim.claimant', string='Claimant', tracking=True)
+    agency_id = fields.Many2one('claim.agency', string='Agency', tracking=True)
+    project_id = fields.Many2one('project.project', string='Related Project')
     
     origin = fields.Selection([
         ('citizen', 'Citizen'),
         ('company', 'Company'),
         ('monitoring', 'Watch Cell')
-    ], string='Origin', required=True, tracking=True)
+    ], string='Origin', tracking=True, default='citizen')
     
     source = fields.Selection([
         ('web', 'Web Form'),
         ('phone', 'Phone Call'),
         ('onsite', 'On Site'),
         ('monitoring', 'Watch Cell')
-    ], string='Source', required=True)
+    ], string='Source', default='web')
     
     type = fields.Selection([
         ('technical', 'Technical'),
         ('commercial', 'Commercial')
-    ], string='Type', tracking=True)
+    ], string='Type', tracking=True, default='technical')
     
     priority = fields.Selection([
         ('low', 'Low'),
@@ -40,18 +41,18 @@ class Claim(models.Model):
         ('high', 'High')
     ], string='Priority', default='medium', tracking=True) 
     
-    urgent = fields.Boolean('Urgent', tracking=True)
+    urgent = fields.Boolean('Urgent', tracking=True, default=False)
     complexity = fields.Selection([
         ('low', 'Low'),
         ('medium', 'Medium'),
         ('high', 'High')
-    ], string='Complexity')
+    ], string='Complexity', default='medium')
     
     gravity = fields.Selection([
         ('low', 'Low'),
         ('medium', 'Medium'),
         ('high', 'High')
-    ], string='Gravity')
+    ], string='Gravity', default='medium')
     
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -66,12 +67,10 @@ class Claim(models.Model):
     
     attachment_ids = fields.Many2many('ir.attachment', string='Attachments')
     
-    # Commercial PV fields
     commercial_pv = fields.Text('Commercial PV')
     commercial_decision = fields.Text('Commercial Decision')
     commercial_pv_date = fields.Date('Commercial PV Date')
     
-    # Customer satisfaction fields
     satisfaction_score = fields.Selection([
         ('1', 'Very Unsatisfied'),
         ('2', 'Unsatisfied'),
@@ -88,20 +87,33 @@ class Claim(models.Model):
         return super(Claim, self).create(vals)
 
     def action_submit(self):
-        self.write({'state': 'submitted'})
+        for record in self:
+            if not record.claimant_id or not record.agency_id:
+                raise UserError('Please fill in the Claimant and Agency fields before submitting.')
+            record.write({'state': 'submitted'})
 
     def action_start_processing(self):
-        if not self.customer_service_agent_id or not self.type:
-            raise UserError('Please assign a customer service agent and define the claim type before starting processing.')
-        self.write({'state': 'in_progress'})
+        for record in self:
+            if not record.customer_service_agent_id or not record.type:
+                raise UserError('Please assign a customer service agent and define the claim type before starting processing.')
+            record.write({'state': 'in_progress'})
 
     def action_resolve(self):
         self.write({'state': 'resolved'})
 
     def action_close(self):
-        if not self.satisfaction_score:
-            raise UserError('Please fill in the satisfaction survey before closing the claim.')
-        self.write({'state': 'closed'})
+        for record in self:
+            if not record.satisfaction_score:
+                raise UserError('Please fill in the satisfaction survey before closing the claim.')
+            record.write({'state': 'closed'})
 
     def action_archive(self):
         self.write({'state': 'archived'})
+
+    @api.onchange('type')
+    def _onchange_type(self):
+        # Clear commercial fields if type is not commercial
+        if self.type != 'commercial':
+            self.commercial_pv = False
+            self.commercial_decision = False
+            self.commercial_pv_date = False
