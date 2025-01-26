@@ -78,7 +78,7 @@
     <!-- Menu Item -->
     <menuitem id="menu_communication_list"
               name="All Communications"
-              parent="menu_communications"
+              parent="menu_operations"
               action="action_communication_list"
               sequence="10"/>
 </odoo>
