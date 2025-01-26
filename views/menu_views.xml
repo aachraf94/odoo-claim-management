@@ -34,10 +34,10 @@
         parent="menu_claim_root" 
         sequence="30"/>
 
-    <menuitem id="menu_projects" 
+    <!-- <menuitem id="menu_projects" 
         name="Projects" 
         parent="menu_operations" 
-        sequence="10"/>
+        sequence="10"/> -->
 
     <!-- <menuitem id="menu_communications" 
         name="Communications" 
