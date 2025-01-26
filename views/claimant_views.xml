@@ -113,7 +113,7 @@
     <!-- Menu Item for Claimants -->
     <menuitem id="menu_claimant_list"
               name="All Claimants"
-              parent="menu_claim_root"
+              parent="menu_claimant_main" 
               action="action_claimant_list"
               sequence="10"/>
 </odoo>
