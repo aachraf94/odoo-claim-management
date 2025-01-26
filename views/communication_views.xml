@@ -77,7 +77,7 @@
 
     <!-- Menu Item -->
     <menuitem id="menu_communication_list"
-              name="All Communications"
+              name="Communications"
               parent="menu_operations"
               action="action_communication_list"
               sequence="10"/>
