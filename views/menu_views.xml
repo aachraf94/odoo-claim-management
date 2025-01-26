@@ -23,10 +23,10 @@
         parent="menu_claim_root" 
         sequence="20"/>
 
-    <menuitem id="menu_claimant_list" 
+    <!-- <menuitem id="menu_claimant_list" 
         name="All Claimants" 
         parent="menu_claimant_main" 
-        sequence="10"/>
+        sequence="10"/> -->
 
     <!-- Operations Menu -->
     <menuitem id="menu_operations" 
