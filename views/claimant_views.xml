@@ -1,99 +1,119 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <odoo>
-<!-- 
-    Action for Claimants
+    <!-- Action for Claimants -->
     <record id="action_claimant_list" model="ir.actions.act_window">
         <field name="name">Claimants</field>
         <field name="res_model">claim.claimant</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,search</field>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">Create a new claimant to track individuals or companies making claims.</p>
+            <p class="o_view_nocontent_smiling_face">
+                Create a new claimant to track individuals or companies filing claims.
+            </p>
         </field>
     </record>
 
-    Tree View for Claimants
+    <!-- Tree View for Claimants -->
     <record id="view_claimant_tree" model="ir.ui.view">
         <field name="name">claim.claimant.tree</field>
         <field name="model">claim.claimant</field>
         <field name="arch" type="xml">
             <tree string="Claimants">
-                <field name="name" string="Name"/>
-                <field name="first_name" string="First Name"/>
-                <field name="company_name" string="Company Name"/>
-                <field name="type" string="Type"/>
-                <field name="city" string="City"/>
-                <field name="phone" string="Phone"/>
-                <field name="email" string="Email"/>
-                <field name="active" string="Active"/>
+                <field name="name"/>
+                <field name="type"/>
+                <field name="company_name" optional="show"/>
+                <field name="city"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="active" widget="boolean_toggle"/>
             </tree>
         </field>
     </record>
 
-    Form View for Claimants
+    <!-- Form View for Claimants -->
     <record id="view_claimant_form" model="ir.ui.view">
         <field name="name">claim.claimant.form</field>
         <field name="model">claim.claimant</field>
         <field name="arch" type="xml">
             <form string="Claimant">
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_toggle"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Full Name"/>
+                        </h1>
+                    </div>
                     <group>
-                        <field name="name" string="Name"/>
-                        <field name="first_name" string="First Name"/>
-                        <field name="company_name" string="Company Name"/>
-                        <field name="type" string="Type"/>
-                        <field name="address" string="Address"/>
-                        <field name="city" string="City"/>
-                        <field name="phone" string="Phone"/>
-                        <field name="email" string="Email"/>
-                        <field name="active" string="Active"/>
-                        <field name="additional_info" string="Additional Information"/>
+                        <group>
+                            <field name="type" required="1"/>
+                            <field name="first_name" invisible="type == 'company'"/>
+                            <field name="company_name" invisible="type == 'citizen'"/>
+                            <field name="phone"/>
+                            <field name="email"/>
+                        </group>
+                        <group>
+                            <field name="city"/>
+                            <field name="address"/>
+                        </group>
                     </group>
-
-                    Claims Section
                     <notebook>
-                        <page string="Claims">
-                            <field name="claim_ids" string="Claims">
+                        <page string="Additional Information" name="additional_info">
+                            <field name="additional_info" placeholder="Enter any additional details..."/>
+                        </page>
+                        <page string="Claims" name="claims">
+                            <field name="claim_ids">
                                 <tree>
-                                    <field name="name" string="Reference"/>
-                                    <field name="date" string="Date"/>
-                                    <field name="subject" string="Subject"/>
-                                    <field name="state" string="Status"/>
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="subject"/>
+                                    <field name="type"/>
+                                    <field name="state"/>
                                 </tree>
-                                <form>
-                                    <group>
-                                        <field name="name" string="Reference"/>
-                                        <field name="date" string="Date"/>
-                                        <field name="subject" string="Subject"/>
-                                        <field name="state" string="Status"/>
-                                    </group>
-                                </form>
                             </field>
                         </page>
                     </notebook>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
 
-    Search View for Claimants
+    <!-- Search View for Claimants -->
     <record id="view_claimant_search" model="ir.ui.view">
         <field name="name">claim.claimant.search</field>
         <field name="model">claim.claimant</field>
         <field name="arch" type="xml">
-            <search string="Claimant Search">
-                <field name="name" string="Name"/>
-                <field name="company_name" string="Company Name"/>
-                <field name="type" string="Type"/>
-                <field name="city" string="City"/>
-                <field name="phone" string="Phone"/>
-                <field name="email" string="Email"/>
+            <search string="Search Claimants">
+                <field name="name"/>
+                <field name="company_name"/>
+                <field name="city"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <separator/>
+                <filter string="Citizens" name="citizens" domain="[('type', '=', 'citizen')]"/>
+                <filter string="Companies" name="companies" domain="[('type', '=', 'company')]"/>
+                <separator/>
                 <filter string="Active" name="active" domain="[('active', '=', True)]"/>
-                <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
-                <group expand="1" string="Group By">
-                    <filter string="Type" name="group_by_type" context="{'group_by': 'type'}"/>
-                    <filter string="City" name="group_by_city" context="{'group_by': 'city'}"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Type" name="group_by_type" domain="[]" context="{'group_by': 'type'}"/>
+                    <filter string="City" name="group_by_city" domain="[]" context="{'group_by': 'city'}"/>
                 </group>
             </search>
         </field>
-    </record> -->
+    </record>
+
+    <!-- Menu Item for Claimants -->
+    <menuitem id="menu_claimant_list"
+              name="All Claimants"
+              parent="menu_claim_root"
+              action="action_claimant_list"
+              sequence="10"/>
 </odoo>
