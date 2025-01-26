@@ -66,8 +66,8 @@
     </record>
 
 
-    <menuitem id="menu_projects" 
-        name="Projects" 
+    <menuitem id="menu_employees" 
+        name="Employees" 
         parent="menu_operations" 
         action="action_employee_list"
         sequence="10"/>
