@@ -1,32 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <odoo>
-<!-- 
-    Action for Communications
-    <record id="action_communications" model="ir.actions.act_window">
+    <!-- Action for Communications -->
+    <record id="action_communication_list" model="ir.actions.act_window">
         <field name="name">Communications</field>
         <field name="res_model">claim.communication</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,search</field>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">Track all communications related to claims.</p>
+            <p class="o_view_nocontent_smiling_face">
+                Track communications related to claims.
+            </p>
         </field>
     </record>
 
-    Tree View for Communications
+    <!-- Tree View for Communications -->
     <record id="view_communication_tree" model="ir.ui.view">
         <field name="name">claim.communication.tree</field>
         <field name="model">claim.communication</field>
         <field name="arch" type="xml">
             <tree string="Communications">
-                <field name="claim_id" string="Claim"/>
-                <field name="date" string="Date"/>
-                <field name="agent_id" string="Agent"/>
-                <field name="communication_type" string="Type"/>
-                <field name="notes" string="Notes"/>
+                <field name="claim_id"/>
+                <field name="date"/>
+                <field name="agent_id"/>
+                <field name="communication_type"/>
+                <field name="notes"/>
             </tree>
         </field>
     </record>
 
-    Form View for Communications
+    <!-- Form View for Communications -->
     <record id="view_communication_form" model="ir.ui.view">
         <field name="name">claim.communication.form</field>
         <field name="model">claim.communication</field>
@@ -34,35 +35,50 @@
             <form string="Communication">
                 <sheet>
                     <group>
-                        <field name="claim_id" string="Claim"/>
-                        <field name="date" string="Date"/>
-                        <field name="agent_id" string="Agent"/>
-                        <field name="communication_type" string="Type"/>
-                        <field name="notes" string="Notes"/>
+                        <group>
+                            <field name="claim_id" required="1"/>
+                            <field name="date"/>
+                            <field name="agent_id"/>
+                        </group>
+                        <group>
+                            <field name="communication_type"/>
+                        </group>
                     </group>
+                    <notebook>
+                        <page string="Notes" name="notes">
+                            <field name="notes" placeholder="Communication details..."/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
     </record>
 
-    Search View for Communications
+    <!-- Search View for Communications -->
     <record id="view_communication_search" model="ir.ui.view">
         <field name="name">claim.communication.search</field>
         <field name="model">claim.communication</field>
         <field name="arch" type="xml">
-            <search string="Communication Search">
-                <field name="claim_id" string="Claim"/>
-                <field name="agent_id" string="Agent"/>
-                <field name="communication_type" string="Type"/>
-                <field name="date" string="Date"/>
+            <search string="Search Communications">
+                <field name="claim_id"/>
+                <field name="agent_id"/>
+                <separator/>
                 <filter string="Outbound Calls" name="outbound" domain="[('communication_type', '=', 'outbound')]"/>
                 <filter string="Inbound Calls" name="inbound" domain="[('communication_type', '=', 'inbound')]"/>
-                <filter string="Status Updates" name="update" domain="[('communication_type', '=', 'update')]"/>
-                <group expand="1" string="Group By">
-                    <filter string="Type" name="group_by_type" context="{'group_by': 'communication_type'}"/>
-                    <filter string="Agent" name="group_by_agent" context="{'group_by': 'agent_id'}"/>
+                <filter string="Status Updates" name="updates" domain="[('communication_type', '=', 'update')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Agent" name="group_by_agent" domain="[]" context="{'group_by': 'agent_id'}"/>
+                    <filter string="Communication Type" name="group_by_type" domain="[]" context="{'group_by': 'communication_type'}"/>
+                    <filter string="Month" name="group_by_month" domain="[]" context="{'group_by': 'date:month'}"/>
                 </group>
             </search>
         </field>
-    </record> -->
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_communication_list"
+              name="All Communications"
+              parent="menu_operations"
+              action="action_communication_list"
+              sequence="10"/>
 </odoo>

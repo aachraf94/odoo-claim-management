@@ -39,10 +39,10 @@
         parent="menu_operations" 
         sequence="10"/>
 
-    <menuitem id="menu_communications" 
+    <!-- <menuitem id="menu_communications" 
         name="Communications" 
         parent="menu_operations" 
-        sequence="20"/>
+        sequence="20"/> -->
 
     <!-- Configuration Menu -->
     <menuitem id="menu_claim_config" 
