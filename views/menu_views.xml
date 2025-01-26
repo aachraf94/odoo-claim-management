@@ -39,6 +39,12 @@
         parent="menu_operations" 
         sequence="10"/>
 
+    <!-- <menuitem id="menu_employees" 
+        name="Employees" 
+        parent="menu_operations" 
+        action="action_employee_list"
+        sequence="10"/> -->
+
     <!-- <menuitem id="menu_communications" 
         name="Communications" 
         parent="menu_operations" 

@@ -1,73 +1,75 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <odoo>
-<!-- 
-    Action for Employees
+    <!-- Action for Employees -->
     <record id="action_employee_list" model="ir.actions.act_window">
         <field name="name">Employees</field>
         <field name="res_model">hr.employee</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,search</field>
+        <field name="domain">[('agency_id', '!=', False)]</field>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">Manage employees and their roles in the claim management process.</p>
+            <p class="o_view_nocontent_smiling_face">
+                Manage employees involved in claim management.
+            </p>
         </field>
     </record>
 
-    Tree View for Employees
+    <!-- Inherit Tree View for Employees -->
     <record id="view_employee_tree" model="ir.ui.view">
-        <field name="name">hr.employee.tree</field>
+        <field name="name">hr.employee.tree.inherit</field>
         <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
         <field name="arch" type="xml">
-            <tree string="Employees">
-                <field name="name" string="Name"/>
-                <field name="job_title" string="Job Title"/>
-                <field name="agency_id" string="Agency"/>
-                <field name="role" string="Role"/>
-                <field name="work_phone" string="Phone"/>
-                <field name="work_email" string="Email"/>
-                <field name="active" string="Active"/>
+            <tree position="inside">
+                <field name="agency_id"/>
+                <field name="role"/>
             </tree>
         </field>
     </record>
 
-    Form View for Employees
+    <!-- Inherit Form View for Employees -->
     <record id="view_employee_form" model="ir.ui.view">
-        <field name="name">hr.employee.form</field>
+        <field name="name">hr.employee.form.inherit</field>
         <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
-            <form string="Employee">
-                <sheet>
+            <notebook position="inside">
+                <page string="Claim Management" name="claim_management">
                     <group>
-                        <field name="name" string="Name"/>
-                        <field name="job_title" string="Job Title"/>
-                        <field name="agency_id" string="Agency"/>
-                        <field name="role" string="Role"/>
-                        <field name="work_phone" string="Phone"/>
-                        <field name="work_email" string="Email"/>
-                        <field name="active" string="Active"/>
+                        <group>
+                            <field name="agency_id"/>
+                            <field name="role"/>
+                        </group>
                     </group>
-                </sheet>
-            </form>
+                </page>
+            </notebook>
         </field>
     </record>
 
-    Search View for Employees
+    <!-- Search View for Employees -->
     <record id="view_employee_search" model="ir.ui.view">
-        <field name="name">hr.employee.search</field>
+        <field name="name">hr.employee.search.inherit</field>
         <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
         <field name="arch" type="xml">
-            <search string="Employee Search">
-                <field name="name" string="Name"/>
-                <field name="job_title" string="Job Title"/>
-                <field name="agency_id" string="Agency"/>
-                <field name="role" string="Role"/>
-                <field name="work_phone" string="Phone"/>
-                <field name="work_email" string="Email"/>
-                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
-                <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
-                <group expand="1" string="Group By">
-                    <filter string="Agency" name="group_by_agency" context="{'group_by': 'agency_id'}"/>
-                    <filter string="Role" name="group_by_role" context="{'group_by': 'role'}"/>
+            <search position="inside">
+                <field name="agency_id"/>
+                <field name="role"/>
+                <filter string="Customer Service" name="customer_service" domain="[('role', '=', 'customer_service')]"/>
+                <filter string="Technician" name="technician" domain="[('role', '=', 'technician')]"/>
+                <filter string="Commercial" name="commercial" domain="[('role', '=', 'commercial')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Agency" name="group_by_agency" domain="[]" context="{'group_by': 'agency_id'}"/>
+                    <filter string="Role" name="group_by_role" domain="[]" context="{'group_by': 'role'}"/>
                 </group>
             </search>
         </field>
-    </record> -->
+    </record>
+
+
+    <menuitem id="menu_employees" 
+        name="Employees" 
+        parent="menu_claim_config" 
+        action="action_employee_list"
+        sequence="10"/>
+
 </odoo>
