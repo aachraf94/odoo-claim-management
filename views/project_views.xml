@@ -58,49 +58,6 @@
         </field>
     </record>
 
-    <!-- Kanban View for Projects -->
-    <record id="view_claim_project_kanban" model="ir.ui.view">
-        <field name="name">project.project.kanban.inherit.claim</field>
-        <field name="model">project.project</field>
-        <field name="inherit_id" ref="project.view_project_kanban"/>
-        <field name="arch" type="xml">
-            <xpath expr="//div[hasclass('o_project_kanban_boxes')]" position="inside">
-                <div t-if="record.claim_id.raw_value" class="o_project_kanban_box">
-                    <div class="o_value">
-                        <field name="claim_type"/>
-                    </div>
-                    <div class="o_label">
-                        Claim Type
-                    </div>
-                </div>
-            </xpath>
-            <xpath expr="//div[hasclass('o_project_kanban_main')]//div[hasclass('text-muted')]" position="after">
-                <div t-if="record.claim_id.raw_value" class="text-muted">
-                    <field name="claim_id"/>
-                </div>
-            </xpath>
-        </field>
-    </record>
-
-    <!-- Search View for Projects -->
-    <record id="view_claim_project_search" model="ir.ui.view">
-        <field name="name">project.project.search.inherit.claim</field>
-        <field name="model">project.project</field>
-        <field name="inherit_id" ref="project.view_project_project_filter"/>
-        <field name="arch" type="xml">
-            <xpath expr="//search" position="inside">
-                <separator/>
-                <field name="claim_id"/>
-                <field name="claim_type"/>
-                <filter string="Commercial Claims" name="commercial_claims" domain="[('claim_type', '=', 'commercial')]"/>
-                <filter string="Technical Claims" name="technical_claims" domain="[('claim_type', '=', 'technical')]"/>
-                <group expand="0" string="Group By">
-                    <filter string="Claim Type" name="group_by_claim_type" domain="[]" context="{'group_by': 'claim_type'}"/>
-                </group>
-            </xpath>
-        </field>
-    </record>
-
     <!-- Task Views -->
     <!-- Tree View for Tasks -->
     <record id="view_claim_task_tree" model="ir.ui.view">
@@ -110,8 +67,10 @@
         <field name="arch" type="xml">
             <field name="user_ids" position="after">
                 <field name="assignees" widget="many2many_tags"/>
-                <field name="claim_state" widget="badge" decoration-info="claim_state == 'draft'" 
-                       decoration-warning="claim_state == 'in_progress'" decoration-success="claim_state == 'done'"/>
+                <field name="claim_state" widget="badge" 
+                       decoration-info="claim_state == 'draft'" 
+                       decoration-warning="claim_state == 'in_progress'" 
+                       decoration-success="claim_state == 'done'"/>
             </field>
         </field>
     </record>
