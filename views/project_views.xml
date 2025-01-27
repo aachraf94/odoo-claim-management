@@ -4,7 +4,7 @@
     <record id="action_claim_project_list" model="ir.actions.act_window">
         <field name="name">Claim Projects</field>
         <field name="res_model">project.project</field>
-        <field name="view_mode">kanban,tree,form,calendar,gantt</field>
+        <field name="view_mode">kanban,tree,form,calendar</field>
         <field name="domain">[('claim_id', '!=', False)]</field>
         <field name="context">{'default_is_claim_project': True}</field>
         <field name="help" type="html">
