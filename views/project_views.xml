@@ -20,10 +20,10 @@
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.view_project"/>
         <field name="arch" type="xml">
-            <field name="name" position="after">
+            <xpath expr="//field[@name='name']" position="after">
                 <field name="claim_id"/>
                 <field name="claim_type"/>
-            </field>
+            </xpath>
         </field>
     </record>
 
@@ -33,16 +33,17 @@
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.edit_project"/>
         <field name="arch" type="xml">
-            <div name="button_box" position="inside">
-                <button name="action_view_claim"
-                        type="object"
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="%(claim.action_claim_list)d"
+                        type="action"
                         class="oe_stat_button"
                         icon="fa-exclamation-circle"
-                        attrs="{'invisible': [('claim_id', '=', False)]}">
+                        attrs="{'invisible': [('claim_id', '=', False)]}"
+                        context="{'default_project_id': active_id}">
                     <field string="Related Claim" name="claim_id" widget="statinfo"/>
                 </button>
-            </div>
-            <notebook position="inside">
+            </xpath>
+            <xpath expr="//notebook" position="inside">
                 <page string="Claim Information" name="claim_info" attrs="{'invisible': [('claim_id', '=', False)]}">
                     <group>
                         <group>
@@ -54,7 +55,7 @@
                         </group>
                     </group>
                 </page>
-            </notebook>
+            </xpath>
         </field>
     </record>
 
@@ -81,7 +82,7 @@
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
-            <notebook position="inside">
+            <xpath expr="//notebook" position="inside">
                 <page string="Claim Details" name="claim_details">
                     <group>
                         <group>
@@ -90,7 +91,7 @@
                         </group>
                     </group>
                 </page>
-            </notebook>
+            </xpath>
         </field>
     </record>
 
