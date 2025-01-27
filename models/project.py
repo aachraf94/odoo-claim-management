@@ -9,3 +9,18 @@ class ClaimProject(models.Model):
         ('commercial', 'Commercial'),
         ('technical', 'Technical')
     ], string='Claim Type')
+
+    def action_view_claim(self):
+        """Opens the related claim form view"""
+        self.ensure_one()
+        if not self.claim_id:
+            return
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Claim',
+            'res_model': 'claim.claim',
+            'res_id': self.claim_id.id,
+            'view_mode': 'form',
+            'target': 'current',
+        }

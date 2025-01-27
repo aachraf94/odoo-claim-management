@@ -33,7 +33,16 @@
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.edit_project"/>
         <field name="arch" type="xml">
-            <xpath expr="//notebook" position="inside">
+            <div name="button_box" position="inside">
+                <button name="action_view_claim"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-exclamation-circle"
+                        attrs="{'invisible': [('claim_id', '=', False)]}">
+                    <field string="Related Claim" name="claim_id" widget="statinfo"/>
+                </button>
+            </div>
+            <notebook position="inside">
                 <page string="Claim Information" name="claim_info" attrs="{'invisible': [('claim_id', '=', False)]}">
                     <group>
                         <group>
@@ -45,16 +54,7 @@
                         </group>
                     </group>
                 </page>
-            </xpath>
-            <xpath expr="//div[@name='button_box']" position="inside">
-                <button name="action_view_claim"
-                        type="object"
-                        class="oe_stat_button"
-                        icon="fa-exclamation-circle"
-                        attrs="{'invisible': [('claim_id', '=', False)]}">
-                    <field string="Related Claim" name="claim_id" widget="statinfo"/>
-                </button>
-            </xpath>
+            </notebook>
         </field>
     </record>
 
@@ -81,7 +81,7 @@
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
-            <xpath expr="//notebook" position="inside">
+            <notebook position="inside">
                 <page string="Claim Details" name="claim_details">
                     <group>
                         <group>
@@ -90,7 +90,7 @@
                         </group>
                     </group>
                 </page>
-            </xpath>
+            </notebook>
         </field>
     </record>
 
