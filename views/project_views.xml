@@ -79,6 +79,24 @@
         </field>
     </record>
 
+    <!-- Search Views -->
+    <record id="view_claim_project_search" model="ir.ui.view">
+        <field name="name">project.project.search.inherit.claim</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_project_filter"/>
+        <field name="arch" type="xml">
+            <search position="inside">
+                <separator/>
+                <filter string="With Claims" name="with_claims" domain="[('claim_id', '!=', False)]"/>
+                <filter string="Technical Claims" name="technical_claims" domain="[('claim_type', '=', 'technical')]"/>
+                <filter string="Commercial Claims" name="commercial_claims" domain="[('claim_type', '=', 'commercial')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Claim Type" name="claim_type" context="{'group_by': 'claim_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <!-- Task Views -->
     <record id="view_claim_task_tree" model="ir.ui.view">
         <field name="name">project.task.tree.inherit.claim</field>
@@ -115,24 +133,6 @@
                     </group>
                 </page>
             </notebook>
-        </field>
-    </record>
-
-    <!-- Search Views -->
-    <record id="view_claim_project_search" model="ir.ui.view">
-        <field name="name">project.project.search.inherit.claim</field>
-        <field name="model">project.project</field>
-        <field name="inherit_id" ref="project.view_project_project_filter"/>
-        <field name="arch" type="xml">
-            <filter name="inactive" position="after">
-                <separator/>
-                <filter string="With Claims" name="with_claims" domain="[('claim_id', '!=', False)]"/>
-                <filter string="Technical Claims" name="technical_claims" domain="[('claim_type', '=', 'technical')]"/>
-                <filter string="Commercial Claims" name="commercial_claims" domain="[('claim_type', '=', 'commercial')]"/>
-            </filter>
-            <filter name="Partner" position="after">
-                <filter string="Claim Type" name="claim_type" context="{'group_by': 'claim_type'}"/>
-            </filter>
         </field>
     </record>
 
