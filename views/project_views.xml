@@ -1,141 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Action for Claim Projects -->
+    <!-- Internal Action for Claim Projects -->
     <record id="action_claim_project_list" model="ir.actions.act_window">
         <field name="name">Claim Projects</field>
         <field name="res_model">project.project</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,tree,form,calendar</field>
         <field name="domain">[('claim_id', '!=', False)]</field>
-        <field name="context">{'default_user_id': uid}</field>
+        <field name="context">{'default_is_claim_project': True}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create a new project to manage claim resolution.
+                Create a new project for claim resolution
+            </p>
+            <p>
+                Organize your claim resolution activities into projects to better track and manage them.
             </p>
         </field>
     </record>
 
-    <!-- Tree View for Projects -->
+    <!-- Project Views -->
     <record id="view_claim_project_tree" model="ir.ui.view">
         <field name="name">project.project.tree.inherit.claim</field>
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.view_project"/>
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="claim_id"/>
-                <field name="claim_type"/>
+                <field name="claim_id" optional="show"/>
+                <field name="claim_type" optional="show"/>
             </field>
         </field>
     </record>
 
-    <!-- Form View for Projects -->
     <record id="view_claim_project_form" model="ir.ui.view">
         <field name="name">project.project.form.inherit.claim</field>
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.edit_project"/>
         <field name="arch" type="xml">
-            <xpath expr="//notebook" position="inside">
-                <page string="Claim Information" name="claim_info" attrs="{'invisible': [('claim_id', '=', False)]}">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" icon="fa-exclamation-circle"
+                        invisible="not claim_id">
+                    <field string="Related Claim" name="claim_id" widget="statinfo"/>
+                </button>
+            </xpath>
+            <notebook position="inside">
+                <page string="Claim Information" name="claim_info" 
+                      invisible="not claim_id">
                     <group>
                         <group>
                             <field name="claim_id"/>
                             <field name="claim_type" widget="radio"/>
                         </group>
                         <group>
-                            <field name="members" widget="many2many_tags"/>
+                            <field name="members" widget="many2many_tags" 
+                                   options="{'color_field': 'color', 'no_create_edit': True}"/>
                         </group>
                     </group>
                 </page>
-            </xpath>
-            <xpath expr="//div[@name='button_box']" position="inside">
-                <button name="action_view_claim"
-                        type="object"
-                        class="oe_stat_button"
-                        icon="fa-exclamation-circle"
-                        attrs="{'invisible': [('claim_id', '=', False)]}">
-                    <field string="Related Claim" name="claim_id" widget="statinfo"/>
-                </button>
-            </xpath>
+            </notebook>
         </field>
     </record>
 
-    <!-- Kanban View for Projects -->
     <record id="view_claim_project_kanban" model="ir.ui.view">
         <field name="name">project.project.kanban.inherit.claim</field>
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.view_project_kanban"/>
         <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="claim_id"/>
+                <field name="claim_type"/>
+            </field>
             <xpath expr="//div[hasclass('o_project_kanban_boxes')]" position="inside">
                 <div t-if="record.claim_id.raw_value" class="o_project_kanban_box">
                     <div class="o_value">
-                        <field name="claim_type"/>
+                        <span><field name="claim_type"/></span>
                     </div>
-                    <div class="o_label">
-                        Claim Type
-                    </div>
-                </div>
-            </xpath>
-            <xpath expr="//div[hasclass('o_project_kanban_main')]//div[hasclass('text-muted')]" position="after">
-                <div t-if="record.claim_id.raw_value" class="text-muted">
-                    <field name="claim_id"/>
+                    <div class="o_label">Claim Type</div>
                 </div>
             </xpath>
         </field>
     </record>
 
-    <!-- Search View for Projects -->
+    <!-- Search Views -->
     <record id="view_claim_project_search" model="ir.ui.view">
         <field name="name">project.project.search.inherit.claim</field>
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.view_project_project_filter"/>
         <field name="arch" type="xml">
-            <xpath expr="//search" position="inside">
+            <search position="inside">
                 <separator/>
-                <field name="claim_id"/>
-                <field name="claim_type"/>
-                <filter string="Commercial Claims" name="commercial_claims" domain="[('claim_type', '=', 'commercial')]"/>
+                <filter string="With Claims" name="with_claims" domain="[('claim_id', '!=', False)]"/>
                 <filter string="Technical Claims" name="technical_claims" domain="[('claim_type', '=', 'technical')]"/>
+                <filter string="Commercial Claims" name="commercial_claims" domain="[('claim_type', '=', 'commercial')]"/>
                 <group expand="0" string="Group By">
-                    <filter string="Claim Type" name="group_by_claim_type" domain="[]" context="{'group_by': 'claim_type'}"/>
+                    <filter string="Claim Type" name="claim_type" context="{'group_by': 'claim_type'}"/>
                 </group>
-            </xpath>
+            </search>
         </field>
     </record>
 
     <!-- Task Views -->
-    <!-- Tree View for Tasks -->
     <record id="view_claim_task_tree" model="ir.ui.view">
         <field name="name">project.task.tree.inherit.claim</field>
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_tree2"/>
         <field name="arch" type="xml">
             <field name="user_ids" position="after">
-                <field name="assignees" widget="many2many_tags"/>
-                <field name="claim_state" widget="badge" decoration-info="claim_state == 'draft'" 
-                       decoration-warning="claim_state == 'in_progress'" decoration-success="claim_state == 'done'"/>
+                <field name="assignees" widget="many2many_tags" optional="show"/>
+                <field name="claim_state" widget="badge" 
+                       decoration-info="claim_state == 'draft'"
+                       decoration-warning="claim_state == 'in_progress'"
+                       decoration-success="claim_state == 'done'"
+                       optional="show"/>
             </field>
         </field>
     </record>
 
-    <!-- Form View for Tasks -->
     <record id="view_claim_task_form" model="ir.ui.view">
         <field name="name">project.task.form.inherit.claim</field>
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
-            <xpath expr="//notebook" position="inside">
-                <page string="Claim Details" name="claim_details">
+            <notebook position="inside">
+                <page string="Claim Details" name="claim_details"
+                      invisible="not project_id.claim_id">
                     <group>
                         <group>
-                            <field name="assignees" widget="many2many_tags"/>
+                            <field name="assignees" widget="many2many_tags" 
+                                   options="{'color_field': 'color', 'no_create_edit': True}"/>
+                        </group>
+                        <group>
                             <field name="claim_state" widget="radio"/>
                         </group>
                     </group>
                 </page>
-            </xpath>
+            </notebook>
         </field>
     </record>
 
-    <!-- Menu Items -->
+    <!-- Menu Item -->
     <menuitem id="menu_claim_project_list"
               name="Claim Projects"
               parent="menu_operations"
