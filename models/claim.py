@@ -1,4 +1,5 @@
-from odoo import models, fields, api
+# 1. models/claim.py
+from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 import logging
 
@@ -15,7 +16,6 @@ class Claim(models.Model):
     subject = fields.Char('Subject', required=True, tracking=True)
     description = fields.Text('Description', tracking=True)
     
-    # Make these fields not required by default
     claimant_id = fields.Many2one('claim.claimant', string='Claimant', tracking=True)
     agency_id = fields.Many2one('claim.agency', string='Agency', tracking=True)
     project_id = fields.Many2one('project.project', string='Related Project')
@@ -83,29 +83,34 @@ class Claim(models.Model):
     ], string='Satisfaction Score')
     satisfaction_comment = fields.Text('Satisfaction Comment')
 
+    @api.model
+    def create(self, vals):
+        if vals.get('name', 'New') == 'New':
+            vals['name'] = self.env['ir.sequence'].next_by_code('claim.claim') or 'New'
+        record = super(Claim, self).create(vals)
+        if record.claimant_id and record.claimant_id.email:
+            record._send_email('claim_management.email_template_claim_acknowledgment')
+        return record
+
     def _send_email(self, template_xmlid, force_send=True):
         """Generic method to send emails using templates"""
         self.ensure_one()
         try:
             template = self.env.ref(template_xmlid, raise_if_not_found=True)
             
-            # Check if claimant email exists
             if not self.claimant_id.email:
                 _logger.warning(f'No email address found for claimant on claim {self.name}')
                 return False
                 
-            # Check if template exists
             if not template:
                 _logger.error(f'Email template {template_xmlid} not found')
                 return False
 
-            # Prepare the email values
             email_values = {
                 'email_to': self.claimant_id.email,
                 'email_from': self.env.company.email or self.env.user.email,
             }
             
-            # Send the email
             template.with_context(lang=self.claimant_id.lang).send_mail(
                 self.id,
                 force_send=force_send,
@@ -119,35 +124,28 @@ class Claim(models.Model):
             _logger.error(f'Failed to send email for claim {self.name}: {str(e)}')
             return False
 
-    @api.model
-    def create(self, vals):
-        record = super(Claim, self).create(vals)
-        if record.claimant_id and record.claimant_id.email:
-            record._send_email('claim.email_template_claim_acknowledgment')
-        return record
-
     def action_submit(self):
         for record in self:
             if not record.claimant_id or not record.agency_id:
-                raise UserError('Please fill in the Claimant and Agency fields before submitting.')
+                raise UserError(_('Please fill in the Claimant and Agency fields before submitting.'))
             record.write({'state': 'submitted'})
-            record._send_email('claim.email_template_claim_status_update')
+            record._send_email('claim_management.email_template_claim_status_update')
 
     def action_start_processing(self):
         for record in self:
             if not record.customer_service_agent_id or not record.type:
-                raise UserError('Please assign a customer service agent and define the claim type before starting processing.')
+                raise UserError(_('Please assign a customer service agent and define the claim type before starting processing.'))
             record.write({'state': 'in_progress'})
-            record._send_email('claim.email_template_claim_status_update')
+            record._send_email('claim_management.email_template_claim_status_update')
 
     def action_resolve(self):
         for record in self:
             record.write({'state': 'resolved'})
-            record._send_email('claim.email_template_claim_status_update')
+            record._send_email('claim_management.email_template_claim_status_update')
 
     def action_close(self):
         for record in self:
             if not record.satisfaction_score:
-                raise UserError('Please fill in the satisfaction survey before closing the claim.')
+                raise UserError(_('Please fill in the satisfaction survey before closing the claim.'))
             record.write({'state': 'closed'})
-            record._send_email('claim.email_template_claim_status_update')
+            record._send_email('claim_management.email_template_claim_status_update')
