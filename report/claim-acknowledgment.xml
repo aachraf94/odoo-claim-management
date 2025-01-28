@@ -1,0 +1,103 @@
+# File: report/claim_acknowledgment.xml
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Report action -->
+    <record id="action_report_claim_acknowledgment" model="ir.actions.report">
+        <field name="name">Claim Acknowledgment</field>
+        <field name="model">claim.claim</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">claim.report_claim_acknowledgment</field>
+        <field name="report_file">claim.report_claim_acknowledgment</field>
+        <field name="binding_model_id" ref="model_claim_claim"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- QWeb report template -->
+    <template id="report_claim_acknowledgment">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="claim">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Claim Acknowledgment</h2>
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>Reference:</strong> <span t-field="claim.name"/>
+                                <br/>
+                                <strong>Date:</strong> <span t-field="claim.date"/>
+                                <br/>
+                                <strong>Subject:</strong> <span t-field="claim.subject"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Agency:</strong> <span t-field="claim.agency_id.name"/>
+                                <br/>
+                                <strong>Type:</strong> <span t-field="claim.type"/>
+                                <br/>
+                                <strong>Priority:</strong> <span t-field="claim.priority"/>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <strong>Description:</strong>
+                                <p t-field="claim.description"/>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <p>Thank you for submitting your claim. We will process it as soon as possible.</p>
+                                <p>You can track your claim status using this reference number: <strong t-field="claim.name"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Email templates -->
+    <record id="email_template_claim_acknowledgment" model="mail.template">
+        <field name="name">Claim Acknowledgment</field>
+        <field name="model_id" ref="model_claim_claim"/>
+        <field name="subject">Claim Acknowledgment - ${object.name}</field>
+        <field name="email_from">${object.agency_id.name} &lt;${user.email}&gt;</field>
+        <field name="email_to">${object.claimant_id.email}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p>Dear ${object.claimant_id.name},</p>
+                <p>We confirm the receipt of your claim with reference: <strong>${object.name}</strong></p>
+                <p>Details:</p>
+                <ul>
+                    <li>Date: ${object.date}</li>
+                    <li>Subject: ${object.subject}</li>
+                    <li>Type: ${object.type}</li>
+                </ul>
+                <p>We will process your claim as soon as possible.</p>
+                <p>Best regards,<br/>${object.agency_id.name}</p>
+            </div>
+        </field>
+        <field name="report_template" ref="action_report_claim_acknowledgment"/>
+        <field name="report_name">Claim_Acknowledgment_${(object.name or '').replace('/','_')}</field>
+    </record>
+
+    <record id="email_template_claim_status_update" model="mail.template">
+        <field name="name">Claim Status Update</field>
+        <field name="model_id" ref="model_claim_claim"/>
+        <field name="subject">Claim ${object.name} - Status Update</field>
+        <field name="email_from">${object.agency_id.name} &lt;${user.email}&gt;</field>
+        <field name="email_to">${object.claimant_id.email}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p>Dear ${object.claimant_id.name},</p>
+                <p>Your claim (${object.name}) has been updated.</p>
+                <p>New status: <strong>${object.state}</strong></p>
+                % if object.state == 'in_progress':
+                <p>Your claim is now being processed by our team.</p>
+                % elif object.state == 'resolved':
+                <p>Your claim has been resolved. Please provide your feedback through our satisfaction survey.</p>
+                % elif object.state == 'closed':
+                <p>Your claim has been closed. Thank you for your feedback.</p>
+                % endif
+                <p>Best regards,<br/>${object.agency_id.name}</p>
+            </div>
+        </field>
+    </record>
+</odoo>

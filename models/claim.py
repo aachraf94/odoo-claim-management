@@ -82,38 +82,41 @@ class Claim(models.Model):
 
     @api.model
     def create(self, vals):
-        if vals.get('name', 'New') == 'New':
-            vals['name'] = self.env['ir.sequence'].next_by_code('claim.claim') or 'New'
-        return super(Claim, self).create(vals)
+        record = super(Claim, self).create(vals)
+        # Send acknowledgment email with PDF attachment
+        template = self.env.ref('claim.email_template_claim_acknowledgment')
+        if template and record.claimant_id.email:
+            template.send_mail(record.id, force_send=True)
+        return record
 
     def action_submit(self):
         for record in self:
             if not record.claimant_id or not record.agency_id:
                 raise UserError('Please fill in the Claimant and Agency fields before submitting.')
             record.write({'state': 'submitted'})
+            self._send_status_update_email()
 
     def action_start_processing(self):
         for record in self:
             if not record.customer_service_agent_id or not record.type:
                 raise UserError('Please assign a customer service agent and define the claim type before starting processing.')
             record.write({'state': 'in_progress'})
+            self._send_status_update_email()
 
     def action_resolve(self):
         self.write({'state': 'resolved'})
+        self._send_status_update_email()
 
     def action_close(self):
         for record in self:
             if not record.satisfaction_score:
                 raise UserError('Please fill in the satisfaction survey before closing the claim.')
             record.write({'state': 'closed'})
+            self._send_status_update_email()
 
-    def action_archive(self):
-        self.write({'state': 'archived'})
-
-    @api.onchange('type')
-    def _onchange_type(self):
-        # Clear commercial fields if type is not commercial
-        if self.type != 'commercial':
-            self.commercial_pv = False
-            self.commercial_decision = False
-            self.commercial_pv_date = False
+    def _send_status_update_email(self):
+        """Send status update email to claimant"""
+        template = self.env.ref('claim.email_template_claim_status_update')
+        for record in self:
+            if template and record.claimant_id.email:
+                template.send_mail(record.id, force_send=True)
