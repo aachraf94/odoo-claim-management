@@ -18,8 +18,7 @@
         'mail',
         'web',
         'hr',
-        'project',
-        'report_xlsx'
+        'project'
     ],
     'data': [
         'security/claim_security.xml',
