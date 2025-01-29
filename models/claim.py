@@ -1,4 +1,3 @@
-# 1. models/claim.py
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 import logging
