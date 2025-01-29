@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Claim Acknowledgement Report Action -->
+    <record id="action_report_claim_acknowledgement" model="ir.actions.report">
+        <field name="name">Claim Acknowledgement</field>
+        <field name="model">claim.claim</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">claim_management.report_claim_acknowledgement</field>
+        <field name="binding_model_id" ref="model_claim_claim"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Claim_Acknowledgement_%s' % (object.name)</field>
+    </record>
+
+    <!-- Commercial PV Report Action -->
+    <record id="action_report_commercial_pv" model="ir.actions.report">
+        <field name="name">Commercial PV Report</field>
+        <field name="model">claim.claim</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">claim_management.report_commercial_pv</field>
+        <field name="binding_model_id" ref="model_claim_claim"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Commercial_PV_Report_%s' % (object.name)</field>
+        <field name="domain">[('type', '=', 'commercial')]</field>
+    </record>
+</odoo>
