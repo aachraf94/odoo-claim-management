@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_claim_acknowledgment">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Claim Acknowledgment</h2>
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <strong>Reference:</strong> <span t-field="doc.name"/>
+                                <br/>
+                                <strong>Date:</strong> <span t-field="doc.date"/>
+                                <br/>
+                                <strong>Subject:</strong> <span t-field="doc.subject"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_claim_acknowledgment" model="ir.actions.report">
+        <field name="name">Claim Acknowledgment</field>
+        <field name="model">claim.claim</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">claim_management.report_claim_acknowledgment</field>
+        <field name="report_file">claim_management.report_claim_acknowledgment</field>
+        <field name="binding_model_id" ref="model_claim_claim"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

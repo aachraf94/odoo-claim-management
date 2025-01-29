@@ -13,10 +13,22 @@
     'author': '2CS SIT2 TEAM 02 - ESI 2025',
     'website': 'https://almiyah-djazair.dz',
     'license': 'LGPL-3',
-    'depends': ['base', 'mail', 'web', 'hr', 'project'],
+    'depends': [
+        'base',
+        'mail',
+        'web',
+        'hr',
+        'project'
+    ],
     'data': [
         'security/claim_security.xml',
         'security/ir.model.access.csv',
+        # Data files first
+        'data/claim_sequence.xml',
+        'data/mail_template_data.xml',
+        # Then reports
+        'report/claim_acknowledgment.xml',
+        # Finally views
         'views/menu_views.xml',
         'views/claim_views.xml',
         'views/claimant_views.xml',
@@ -24,9 +36,6 @@
         'views/communication_views.xml',        
         'views/employee_views.xml',
         'views/project_views.xml',
-        # 'report/claim_reports.xml',
-        # 'report/claim_report_template.xml',
-        'data/claim_sequence.xml',        
     ],
     'demo': [
         'demo/claim_demo.xml',
@@ -34,5 +43,4 @@
     'installable': True,
     'application': True,
     'auto_install': False,
-    'maintainer': '2CS SIT2 TEAM 02 - ESI 2025',
 }
