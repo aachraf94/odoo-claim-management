@@ -1,0 +1,85 @@
+<!-- reports.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Claim Acknowledgment Report -->
+    <record id="action_claim_acknowledgment" model="ir.actions.report">
+        <field name="name">Acknowledgment Receipt</field>
+        <field name="model">claim.claim</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">claim_management.claim_acknowledgment</field>
+        <field name="binding_model_id" ref="model_claim_claim"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="claim_acknowledgment">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Claim Acknowledgment Receipt</h2>
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <p><strong>Reference:</strong> <span t-field="doc.name"/></p>
+                                <p><strong>Date:</strong> <span t-field="doc.date"/></p>
+                                <p><strong>Subject:</strong> <span t-field="doc.subject"/></p>
+                            </div>
+                            <div class="col-6">
+                                <p><strong>Claimant:</strong> <span t-field="doc.claimant_id.name"/></p>
+                                <p><strong>Agency:</strong> <span t-field="doc.agency_id.name"/></p>
+                                <p><strong>Type:</strong> <span t-field="doc.type"/></p>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h4>Description</h4>
+                                <p t-field="doc.description"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Commercial PV Report -->
+    <record id="action_commercial_pv" model="ir.actions.report">
+        <field name="name">Commercial PV</field>
+        <field name="model">claim.claim</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">claim_management.commercial_pv</field>
+        <field name="binding_model_id" ref="model_claim_claim"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="commercial_pv">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Commercial PV Report</h2>
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <p><strong>Reference:</strong> <span t-field="doc.name"/></p>
+                                <p><strong>Date:</strong> <span t-field="doc.commercial_pv_date"/></p>
+                                <p><strong>Claimant:</strong> <span t-field="doc.claimant_id.name"/></p>
+                            </div>
+                            <div class="col-6">
+                                <p><strong>Agency:</strong> <span t-field="doc.agency_id.name"/></p>
+                                <p><strong>Agent:</strong> <span t-field="doc.customer_service_agent_id.name"/></p>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h4>Commercial PV</h4>
+                                <p t-field="doc.commercial_pv"/>
+                                
+                                <h4 class="mt-4">Commercial Decision</h4>
+                                <p t-field="doc.commercial_decision"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

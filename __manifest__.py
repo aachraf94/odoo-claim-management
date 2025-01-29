@@ -24,8 +24,7 @@
         'views/communication_views.xml',        
         'views/employee_views.xml',
         'views/project_views.xml',
-        'report/claim_reports.xml',
-        'report/claim_report_template.xml',
+        'report/reports.xml',
         'data/claim_sequence.xml',        
     ],
     'demo': [
