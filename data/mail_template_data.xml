@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
+        <!-- First, define the base mail template model reference -->
+        <record id="model_mail_template" model="ir.model">
+            <field name="name">Email Template</field>
+            <field name="model">mail.template</field>
+        </record>
+
         <!-- Claim Acknowledgment Template -->
         <record id="email_template_claim_acknowledgment" model="mail.template">
             <field name="name">Claim Acknowledgment</field>
-            <field name="model_id" ref="model_claim_claim"/>
+            <field name="model_id" ref="claim_management.model_claim_claim"/>
             <field name="subject">Claim Acknowledgment - ${object.name}</field>
             <field name="email_from">${(object.company_id.email_formatted or user.email_formatted) | safe}</field>
-            <field name="email_to">${object.claimant_id.email_formatted or ''}</field>
-            <field name="body_html" type="html">
+            <field name="email_to">${object.claimant_id.email or ''}</field>
+            <field name="body_html"><![CDATA[
                 <div style="margin: 0px; padding: 0px; background-color: #F1F1F1;">
                     <table cellspacing="0" cellpadding="0" style="width:100%; margin: 0; padding: 20px; background-color: #FFFFFF; border-collapse:separate;">
                         <tr>
@@ -42,21 +48,21 @@
                         </tr>
                     </table>
                 </div>
-            </field>
+            ]]></field>
             <field name="report_template" ref="claim_management.action_report_claim_acknowledgment"/>
             <field name="report_name">Claim_Acknowledgment_${(object.name or '').replace('/','_')}</field>
             <field name="lang">${object.claimant_id.lang or user.lang}</field>
             <field name="auto_delete" eval="True"/>
         </record>
 
-        <!-- Claim Status Update Template -->
+        <!-- Status Update Template -->
         <record id="email_template_claim_status_update" model="mail.template">
             <field name="name">Claim Status Update</field>
-            <field name="model_id" ref="model_claim_claim"/>
+            <field name="model_id" ref="claim_management.model_claim_claim"/>
             <field name="subject">Claim ${object.name} - Status Update</field>
             <field name="email_from">${(object.company_id.email_formatted or user.email_formatted) | safe}</field>
-            <field name="email_to">${object.claimant_id.email_formatted or ''}</field>
-            <field name="body_html" type="html">
+            <field name="email_to">${object.claimant_id.email or ''}</field>
+            <field name="body_html"><![CDATA[
                 <div style="margin: 0px; padding: 0px; background-color: #F1F1F1;">
                     <table cellspacing="0" cellpadding="0" style="width:100%; margin: 0; padding: 20px; background-color: #FFFFFF; border-collapse:separate;">
                         <tr>
@@ -76,7 +82,7 @@
                         </tr>
                     </table>
                 </div>
-            </field>
+            ]]></field>
             <field name="lang">${object.claimant_id.lang or user.lang}</field>
             <field name="auto_delete" eval="True"/>
         </record>
