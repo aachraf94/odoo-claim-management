@@ -1,14 +1,30 @@
-<!-- reports.xml -->
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <!-- Define paper format -->
+    <record id="paperformat_claim_reports" model="report.paperformat">
+        <field name="name">Claim Reports Paper Format</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">30</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">35</field>
+    </record>
+
     <!-- Claim Acknowledgment Report -->
     <record id="action_claim_acknowledgment" model="ir.actions.report">
         <field name="name">Acknowledgment Receipt</field>
         <field name="model">claim.claim</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">claim_management.claim_acknowledgment</field>
+        <field name="report_file">claim_management.claim_acknowledgment</field>
+        <field name="print_report_name">'Claim Acknowledgment - %s' % (object.name)</field>
         <field name="binding_model_id" ref="model_claim_claim"/>
         <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_claim_reports"/>
     </record>
 
     <template id="claim_acknowledgment">
@@ -47,8 +63,11 @@
         <field name="model">claim.claim</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">claim_management.commercial_pv</field>
+        <field name="report_file">claim_management.commercial_pv</field>
+        <field name="print_report_name">'Commercial PV - %s' % (object.name)</field>
         <field name="binding_model_id" ref="model_claim_claim"/>
         <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_claim_reports"/>
     </record>
 
     <template id="commercial_pv">
