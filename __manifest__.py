@@ -34,6 +34,7 @@
     
     'data/mail_template_data.xml',
     'report/claim_acknowledgment.xml',
+    'report/commercial_pv_report.xml',
 ],
     'demo': [
         'demo/claim_demo.xml',
