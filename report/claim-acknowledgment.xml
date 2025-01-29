@@ -1,5 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <template id="report_claim_acknowledgment">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Claim Acknowledgment</h2>
+                        <div class="row mt32 mb32">
+                            <div class="col-6">
+                                <strong>Claimant:</strong>
+                                <p t-field="doc.claimant_id.name"/>
+                                <p t-field="doc.claimant_id.address"/>
+                                <p t-field="doc.claimant_id.city"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Claim Reference:</strong>
+                                <p t-field="doc.name"/>
+                                <strong>Date:</strong>
+                                <p t-field="doc.date"/>
+                            </div>
+                        </div>
+                        
+                        <h4>Claim Details</h4>
+                        <table class="table table-sm">
+                            <tr>
+                                <td><strong>Subject</strong></td>
+                                <td><span t-field="doc.subject"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Type</strong></td>
+                                <td><span t-field="doc.type"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Priority</strong></td>
+                                <td><span t-field="doc.priority"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Description</strong></td>
+                                <td><span t-field="doc.description"/></td>
+                            </tr>
+                        </table>
+                        
+                        <div class="row mt32">
+                            <div class="col-12">
+                                <p>Your claim has been registered in our system and will be processed according to our standard procedures. 
+                                You will receive updates regarding the status of your claim via email.</p>
+                                <p>For any questions, please contact our customer service department.</p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
     <record id="action_report_claim_acknowledgment" model="ir.actions.report">
         <field name="name">Claim Acknowledgment</field>
         <field name="model">claim.claim</field>
@@ -9,44 +63,4 @@
         <field name="binding_model_id" ref="model_claim_claim"/>
         <field name="binding_type">report</field>
     </record>
-
-    <template id="report_claim_acknowledgment">
-        <t t-call="web.html_container">
-            <t t-foreach="docs" t-as="claim">
-                <t t-call="web.external_layout">
-                    <div class="page">
-                        <h2>Claim Acknowledgment</h2>
-                        <div class="row mt-4">
-                            <div class="col-6">
-                                <strong>Reference:</strong> <span t-field="claim.name"/>
-                                <br/>
-                                <strong>Date:</strong> <span t-field="claim.date"/>
-                                <br/>
-                                <strong>Subject:</strong> <span t-field="claim.subject"/>
-                            </div>
-                            <div class="col-6">
-                                <strong>Agency:</strong> <span t-field="claim.agency_id.name"/>
-                                <br/>
-                                <strong>Type:</strong> <span t-field="claim.type"/>
-                                <br/>
-                                <strong>Priority:</strong> <span t-field="claim.priority"/>
-                            </div>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <strong>Description:</strong>
-                                <p t-field="claim.description"/>
-                            </div>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <p>Thank you for submitting your claim. We will process it as soon as possible.</p>
-                                <p>You can track your claim status using this reference number: <strong t-field="claim.name"/></p>
-                            </div>
-                        </div>
-                    </div>
-                </t>
-            </t>
-        </t>
-    </template>
 </odoo>
