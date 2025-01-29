@@ -6,46 +6,13 @@
                 <t t-call="web.external_layout">
                     <div class="page">
                         <h2>Claim Acknowledgment</h2>
-                        <div class="row mt32 mb32">
-                            <div class="col-6">
-                                <strong>Claimant:</strong>
-                                <p t-field="doc.claimant_id.name"/>
-                                <p t-field="doc.claimant_id.address"/>
-                                <p t-field="doc.claimant_id.city"/>
-                            </div>
-                            <div class="col-6">
-                                <strong>Claim Reference:</strong>
-                                <p t-field="doc.name"/>
-                                <strong>Date:</strong>
-                                <p t-field="doc.date"/>
-                            </div>
-                        </div>
-                        
-                        <h4>Claim Details</h4>
-                        <table class="table table-sm">
-                            <tr>
-                                <td width="30%"><strong>Subject</strong></td>
-                                <td><span t-field="doc.subject"/></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Type</strong></td>
-                                <td><span t-field="doc.type"/></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Priority</strong></td>
-                                <td><span t-field="doc.priority"/></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Description</strong></td>
-                                <td><span t-field="doc.description"/></td>
-                            </tr>
-                        </table>
-                        
-                        <div class="row mt32">
+                        <div class="row mt-4">
                             <div class="col-12">
-                                <p>Your claim has been registered in our system and will be processed according to our standard procedures. 
-                                You will receive updates regarding the status of your claim via email.</p>
-                                <p>For any questions, please contact our customer service department.</p>
+                                <strong>Reference:</strong> <span t-field="doc.name"/>
+                                <br/>
+                                <strong>Date:</strong> <span t-field="doc.date"/>
+                                <br/>
+                                <strong>Subject:</strong> <span t-field="doc.subject"/>
                             </div>
                         </div>
                     </div>

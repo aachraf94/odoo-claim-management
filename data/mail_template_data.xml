@@ -1,66 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Email Template for Claim Acknowledgment -->
-    <record id="email_template_claim_acknowledgment" model="mail.template">
-        <field name="name">Claim: Acknowledgment</field>
-        <field name="model_id" ref="model_claim_claim"/>
-        <field name="subject">Claim ${object.name} Acknowledgment</field>
-        <field name="email_from">${user.email_formatted |safe}</field>
-        <field name="email_to">${object.claimant_id.email |safe}</field>
-        <field name="body_html"><![CDATA[
-            <div style="margin: 0px; padding: 0px;">
-                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+    <data noupdate="1">
+        <record id="email_template_claim_acknowledgment" model="mail.template">
+            <field name="name">Claim Acknowledgment</field>
+            <field name="model_id" ref="model_claim_claim"/>
+            <field name="subject">Claim Acknowledgment: ${object.name}</field>
+            <field name="email_to">${object.claimant_id.email}</field>
+            <field name="body_html" type="html">
+                <div>
                     Dear ${object.claimant_id.name},
                     <br/><br/>
-                    We confirm the receipt of your claim with reference number: <strong>${object.name}</strong>
+                    Your claim ${object.name} has been received.
                     <br/><br/>
-                    <strong>Details:</strong><br/>
-                    Date: ${format_date(object.date)}<br/>
-                    Subject: ${object.subject}<br/>
-                    Type: ${dict(object._fields['type'].selection)[object.type]}<br/>
+                    Subject: ${object.subject}
                     <br/>
-                    We will process your claim as soon as possible.
+                    Date: ${object.date}
                     <br/><br/>
-                    Best regards,<br/>
-                    ${user.company_id.name}
-                </p>
-            </div>
-        ]]></field>
-        <field name="report_template" ref="action_report_claim_acknowledgment"/>
-        <field name="report_name">Claim_Acknowledgment_${(object.name or '').replace('/','_')}</field>
-        <field name="lang">${object.claimant_id.lang}</field>
-        <field name="auto_delete" eval="True"/>
-    </record>
+                    Best regards.
+                </div>
+            </field>
+        </record>
 
-    <!-- Email Template for Claim Status Update -->
-    <record id="email_template_claim_status_update" model="mail.template">
-        <field name="name">Claim: Status Update</field>
-        <field name="model_id" ref="model_claim_claim"/>
-        <field name="subject">Claim ${object.name} - Status Update</field>
-        <field name="email_from">${user.email_formatted |safe}</field>
-        <field name="email_to">${object.claimant_id.email |safe}</field>
-        <field name="body_html"><![CDATA[
-            <div style="margin: 0px; padding: 0px;">
-                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        <record id="email_template_claim_status_update" model="mail.template">
+            <field name="name">Claim Status Update</field>
+            <field name="model_id" ref="model_claim_claim"/>
+            <field name="subject">Claim Status Update: ${object.name}</field>
+            <field name="email_to">${object.claimant_id.email}</field>
+            <field name="body_html" type="html">
+                <div>
                     Dear ${object.claimant_id.name},
                     <br/><br/>
-                    The status of your claim (${object.name}) has been updated to: 
-                    <strong>${dict(object._fields['state'].selection)[object.state]}</strong>
+                    Your claim ${object.name} has been updated to: ${object.state}
                     <br/><br/>
-                    <strong>Claim Details:</strong><br/>
-                    Subject: ${object.subject}<br/>
-                    Type: ${dict(object._fields['type'].selection)[object.type]}<br/>
-                    <br/>
-                    % if object.state == 'resolved':
-                        Please let us know if you are satisfied with the resolution of your claim.
-                    % endif
-                    <br/><br/>
-                    Best regards,<br/>
-                    ${user.company_id.name}
-                </p>
-            </div>
-        ]]></field>
-        <field name="lang">${object.claimant_id.lang}</field>
-        <field name="auto_delete" eval="True"/>
-    </record>
+                    Best regards.
+                </div>
+            </field>
+        </record>
+    </data>
 </odoo>
