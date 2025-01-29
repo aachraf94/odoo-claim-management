@@ -24,7 +24,7 @@
                         <h4>Claim Details</h4>
                         <table class="table table-sm">
                             <tr>
-                                <td><strong>Subject</strong></td>
+                                <td width="30%"><strong>Subject</strong></td>
                                 <td><span t-field="doc.subject"/></td>
                             </tr>
                             <tr>

@@ -4,31 +4,31 @@
     <record id="email_template_claim_acknowledgment" model="mail.template">
         <field name="name">Claim: Acknowledgment</field>
         <field name="model_id" ref="model_claim_claim"/>
-        <field name="subject">Claim {{ object.name }} Acknowledgment</field>
-        <field name="email_from">{{ user.email_formatted }}</field>
-        <field name="email_to">{{ object.claimant_id.email }}</field>
-        <field name="body_html" type="html">
+        <field name="subject">Claim ${object.name} Acknowledgment</field>
+        <field name="email_from">${user.email_formatted |safe}</field>
+        <field name="email_to">${object.claimant_id.email |safe}</field>
+        <field name="body_html"><![CDATA[
             <div style="margin: 0px; padding: 0px;">
                 <p style="margin: 0px; padding: 0px; font-size: 13px;">
-                    Dear {{ object.claimant_id.name }},
+                    Dear ${object.claimant_id.name},
                     <br/><br/>
-                    We confirm the receipt of your claim with reference number: <strong>{{ object.name }}</strong>
+                    We confirm the receipt of your claim with reference number: <strong>${object.name}</strong>
                     <br/><br/>
                     <strong>Details:</strong><br/>
-                    Date: {{ format_date(object.date) }}<br/>
-                    Subject: {{ object.subject }}<br/>
-                    Type: {{ dict(object._fields['type'].selection).get(object.type) }}<br/>
+                    Date: ${format_date(object.date)}<br/>
+                    Subject: ${object.subject}<br/>
+                    Type: ${dict(object._fields['type'].selection)[object.type]}<br/>
                     <br/>
                     We will process your claim as soon as possible.
                     <br/><br/>
                     Best regards,<br/>
-                    {{ user.company_id.name }}
+                    ${user.company_id.name}
                 </p>
             </div>
-        </field>
-        <field name="report_template" ref="claim_management.action_report_claim_acknowledgment"/>
-        <field name="report_name">Claim_Acknowledgment_{{ (object.name or '').replace('/','_') }}</field>
-        <field name="lang">{{ object.claimant_id.lang }}</field>
+        ]]></field>
+        <field name="report_template" ref="action_report_claim_acknowledgment"/>
+        <field name="report_name">Claim_Acknowledgment_${(object.name or '').replace('/','_')}</field>
+        <field name="lang">${object.claimant_id.lang}</field>
         <field name="auto_delete" eval="True"/>
     </record>
 
@@ -36,31 +36,31 @@
     <record id="email_template_claim_status_update" model="mail.template">
         <field name="name">Claim: Status Update</field>
         <field name="model_id" ref="model_claim_claim"/>
-        <field name="subject">Claim {{ object.name }} - Status Update</field>
-        <field name="email_from">{{ user.email_formatted }}</field>
-        <field name="email_to">{{ object.claimant_id.email }}</field>
-        <field name="body_html" type="html">
+        <field name="subject">Claim ${object.name} - Status Update</field>
+        <field name="email_from">${user.email_formatted |safe}</field>
+        <field name="email_to">${object.claimant_id.email |safe}</field>
+        <field name="body_html"><![CDATA[
             <div style="margin: 0px; padding: 0px;">
                 <p style="margin: 0px; padding: 0px; font-size: 13px;">
-                    Dear {{ object.claimant_id.name }},
+                    Dear ${object.claimant_id.name},
                     <br/><br/>
-                    The status of your claim ({{ object.name }}) has been updated to: 
-                    <strong>{{ dict(object._fields['state'].selection).get(object.state) }}</strong>
+                    The status of your claim (${object.name}) has been updated to: 
+                    <strong>${dict(object._fields['state'].selection)[object.state]}</strong>
                     <br/><br/>
                     <strong>Claim Details:</strong><br/>
-                    Subject: {{ object.subject }}<br/>
-                    Type: {{ dict(object._fields['type'].selection).get(object.type) }}<br/>
+                    Subject: ${object.subject}<br/>
+                    Type: ${dict(object._fields['type'].selection)[object.type]}<br/>
                     <br/>
-                    {% if object.state == 'resolved' %}
-                    Please let us know if you are satisfied with the resolution of your claim.
-                    {% endif %}
+                    % if object.state == 'resolved':
+                        Please let us know if you are satisfied with the resolution of your claim.
+                    % endif
                     <br/><br/>
                     Best regards,<br/>
-                    {{ user.company_id.name }}
+                    ${user.company_id.name}
                 </p>
             </div>
-        </field>
-        <field name="lang">{{ object.claimant_id.lang }}</field>
+        ]]></field>
+        <field name="lang">${object.claimant_id.lang}</field>
         <field name="auto_delete" eval="True"/>
     </record>
 </odoo>
