@@ -20,23 +20,21 @@
         'hr',
         'project'
     ],
-    'data': [
-        'security/claim_security.xml',
-        'security/ir.model.access.csv',
-        # Data files first
-        'data/claim_sequence.xml',
-        'data/mail_template_data.xml',
-        # Then reports
-        'report/claim_acknowledgment.xml',
-        # Finally views
-        'views/menu_views.xml',
-        'views/claim_views.xml',
-        'views/claimant_views.xml',
-        'views/agency_views.xml',
-        'views/communication_views.xml',        
-        'views/employee_views.xml',
-        'views/project_views.xml',
-    ],
+'data': [
+    'security/claim_security.xml',
+    'security/ir.model.access.csv',
+    'data/claim_sequence.xml',
+    'views/menu_views.xml',
+    'views/claim_views.xml',
+    'views/claimant_views.xml',
+    'views/agency_views.xml',
+    'views/communication_views.xml',        
+    'views/employee_views.xml',
+    'views/project_views.xml',
+    
+    'data/mail_template_data.xml',
+    'report/claim_acknowledgment.xml',
+],
     'demo': [
         'demo/claim_demo.xml',
     ],
