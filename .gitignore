@@ -23,5 +23,3 @@ env/
 .vscode/
 *.swp
 *.swo
-
-static/
